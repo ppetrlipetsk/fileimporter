@@ -7,7 +7,7 @@
     <groupId>tmc_file_importer</groupId>
     <artifactId>tmc_file_importer</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>tmc_file_importer</name>
 
     <build>
