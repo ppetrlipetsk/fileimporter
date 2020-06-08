@@ -1,0 +1,12 @@
+throwlib\EIllegalFieldsSet.class
+fileengine\ExcelReader$SheetToFields.class
+tableslib\ImportProcessor.class
+typeslib\TParameter.class
+fileengine\ExcelReader.class
+fileengine\IParserCallBack.class
+tableslib\TTable.class
+loglib\ErrorsClass.class
+excelengine\FileReader.class
+loglib\MessagesClass.class
+tableslib\FieldsMap.class
+MainClassReserv.class

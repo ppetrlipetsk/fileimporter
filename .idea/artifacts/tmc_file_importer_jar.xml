@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="tmc_file_importer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/tmc_file_importer_jar</output-path>
+    <root id="archive" name="tmc_file_importer.jar">
+      <element id="module-output" name="tmc_file_importer" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../includes/sqljdbc42.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
