@@ -1,15 +1,19 @@
 package tableslib;
 /*
-Класс для работы с таблицей iuspt_table
+Класс для работы с таблицей
  */
-import databaselib.DBEngine;
-import databaselib.IStatementFieldsSetter;
-import databaselib.QueryRepository;
-import defines.FieldTypeDefines;
+import com.ppsdevelopment.converters.DateFormatter;
+import com.ppsdevelopment.jdbcprocessor.DataBaseProcessor;
+import com.ppsdevelopment.jdbcprocessor.QueryPreparer;
+import com.ppsdevelopment.loglib.Logger;
+import com.ppsdevelopment.tmcprocessor.typeslib.FieldRecord;
+import com.ppsdevelopment.tmcprocessor.typeslib.FieldType;
+import com.ppsdevelopment.tmcprocessor.typeslib.FieldTypeDefines;
+
+
+import environment.QueryRepository;
 import throwlib.DateFormatError;
 import throwlib.FieldTypeError;
-import typeslib.TypeConverter;
-import typeslib.DetectTypeClass;
 
 import java.net.ConnectException;
 import java.sql.PreparedStatement;
@@ -21,9 +25,9 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import static databaselib.QueryRepository.getAliasInsertQuery;
-import static databaselib.QueryRepository.getIdTableFromTables;
-import static databaselib.QueryRepository.getRecordInsertQuery;
+import static environment.QueryRepository.getAliasInsertQuery;
+import static environment.QueryRepository.getIdTableFromTables;
+import static environment.QueryRepository.getRecordInsertQuery;
 
 
 public class TableClass {
@@ -45,7 +49,7 @@ public class TableClass {
         while (itr1.hasNext()) {
             Map.Entry<String, FieldRecord> entry = itr1.next();
             if (!(entry.getKey().equals("linedelimiter")))
-                s.append(getfieldCreateStatement((entry.getValue()).getAlias(), (FieldTypeDefines.getFieldDBStrByType((entry.getValue()).getFieldType()))));
+                s.append(getfieldCreateStatement((entry.getValue()).getAlias(), (FieldTypeDefines.getFieldTypeStr((entry.getValue()).getFieldType()))));
         }
         s.append(") ON [PRIMARY]");
         return s.toString();
@@ -53,48 +57,54 @@ public class TableClass {
 
     public static void createTable(LinkedHashMap<String, FieldRecord> records, String tableName) throws SQLException, ConnectException {
         String query = getCreateStatement(records, tableName);
-        DBEngine.execStatement(query);
+        DataBaseProcessor dbp=new DataBaseProcessor();
+        dbp.exec(query);
     }
 
     public static void insertAliases(LinkedHashMap<String, FieldRecord> fields, String tableName, long tableId) throws SQLException, FieldTypeError {
         String query = getAliasInsertQuery();
+        DataBaseProcessor dbp=new DataBaseProcessor();
         for (Map.Entry entry : fields.entrySet()) {
-            DBEngine.insertPreparedQuery(query, new AliasFiller((FieldRecord) entry.getValue(), tableId));
+            //DBEngine.insertPreparedQuery(query, new AliasFiller((FieldRecord) entry.getValue(), tableId));
+            dbp.insertPreparedQuery(query, new AliasFiller((FieldRecord) entry.getValue(), tableId),"id");
+
         }
     }
 
 
-    public static void insertRecord(FieldsMap fields, String tableName, LinkedList<String> records) throws SQLException {
+    public static void insertRecord(FieldsCollection fields, String tableName, LinkedList<String> records) throws SQLException {
         String query = getRecordInsertQuery().replace("@tablename@", tableName);
         RecordInsertQueryFiller filler = new RecordInsertQueryFiller(fields, tableName, records);
         query = query.replace("@fields@", filler.getFieldsNamesQueryString());
+        DataBaseProcessor dbp=new DataBaseProcessor();
         try {
             query = query.replace("@values@", filler.getValuesStr());
-            DBEngine.insertQuery(query);
+            dbp.query(query);
         } catch (SQLException e) {
             e.printStackTrace();
-            loglib.Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка БД при добавлении записи.", true);
-            loglib.Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Строка записи:" + records.toString(), true);
-            loglib.Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка:" + e.getMessage(), true);
-            loglib.Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "SQL state:" + e.getSQLState(), true);
+            Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка БД при добавлении записи.", true);
+            Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Строка записи:" + records.toString(), true);
+            Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка:" + e.getMessage(), true);
+            Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "SQL state:" + e.getSQLState(), true);
             throw new SQLException(e);
         } catch (ParseException e) {
             e.printStackTrace();
-            loglib.Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка при парсинге строки...", true);
-            loglib.Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Строка записи:" + records.toString(), true);
-            loglib.Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка:" + e.getMessage(), true);
+            Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка при парсинге строки...", true);
+            Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Строка записи:" + records.toString(), true);
+            Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка:" + e.getMessage(), true);
         } catch (FieldTypeError fieldTypeError) {
             fieldTypeError.printStackTrace();
-            loglib.Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка типа поля...", true);
-            loglib.Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Строка записи:" + records.toString(), true);
-            loglib.Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка:" + fieldTypeError.getMessage(), true);
+            Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка типа поля...", true);
+            Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Строка записи:" + records.toString(), true);
+            Logger.getLogger("AppLog").putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка:" + fieldTypeError.getMessage(), true);
         }
     }
 
 
     public static long getTableId(String iuspt_table) throws SQLException {
         String query = getIdTableQuery().replace("%tablename%", iuspt_table);
-        ResultSet result = DBEngine.resultExpression(query);
+        DataBaseProcessor dp=new DataBaseProcessor();
+        ResultSet result = dp.query(query);
         long id = -1;
         if (result != null) {
             result.next();
@@ -107,7 +117,8 @@ public class TableClass {
 
     public static ResultSet getAliasesForTable(long table_id) throws SQLException {
         String query = getAliasesTableQuery().replace("@tableid@", String.valueOf(table_id));
-        ResultSet result = DBEngine.resultExpression(query);
+        DataBaseProcessor dp=new DataBaseProcessor();
+        ResultSet result = dp.query(query);
         return result;
     }
 
@@ -123,14 +134,16 @@ public class TableClass {
         String query = getInsertTableQuery().replace("%value1%", iuspt_table);
         long result = -1;
         try {
-            result = DBEngine.insertQuery(query);
+            DataBaseProcessor dp=new DataBaseProcessor();
+            result = dp.insertQuery(query,"id");
+            dp.close();
         } catch (Exception e) {
         }
         return result;
     }
 
-    public static FieldTypeDefines.FieldType detectFieldType(String fieldtype) {
-        return FieldTypeDefines.FieldType.valueOf(fieldtype);
+    public static FieldType detectFieldType(String fieldtype) {
+        return FieldType.valueOf(fieldtype);
     }
 
 
@@ -142,7 +155,8 @@ public class TableClass {
     public static void dropTable(String dbTableName) {
         String query = QueryRepository.dropTableQuery().replace("@tablename@", dbTableName);
         try {
-            DBEngine.execStatement(query);
+            DataBaseProcessor dp=new DataBaseProcessor();
+            dp.exec(query);
         } catch (ConnectException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -153,7 +167,8 @@ public class TableClass {
     public static void deleteAliases(String tableName){
             String query = QueryRepository.deleteFromaliasesQuery().replace("@tablename@", tableName);
             try {
-                DBEngine.execStatement(query);
+                DataBaseProcessor dp=new DataBaseProcessor();
+                dp.exec(query);
             } catch (ConnectException e) {
                 e.printStackTrace();
             } catch (SQLException e) {
@@ -165,7 +180,8 @@ public class TableClass {
     public static void deleteFromTable(String dbTableName) {
         String query = QueryRepository.deleteFromTableQuery(false).replace("@tablename@", dbTableName);
         try {
-            DBEngine.execStatement(query);
+            DataBaseProcessor dp=new DataBaseProcessor();
+            dp.exec(query);
         } catch (ConnectException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -177,7 +193,8 @@ public class TableClass {
     public static void insertDeletedField(String dbTableName) {
         String query = QueryRepository.insertDeletedField().replace("@tablename@", dbTableName);
         try {
-            DBEngine.execStatement(query);
+            DataBaseProcessor dp=new DataBaseProcessor();
+            dp.exec(query);
         } catch (ConnectException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -188,13 +205,15 @@ public class TableClass {
     public static boolean isTableExist(String dbTableName) throws SQLException, ConnectException {
         boolean res=false;
             String query=QueryRepository.getSchemaTablesQuery().replace("@tablename@",dbTableName);
-            ResultSet result=DBEngine.resultExpression(query);
+            DataBaseProcessor dp=new DataBaseProcessor();
+            ResultSet result=dp.query(query);
         if (result != null) {
             result.next();
             if (result.getRow() != 0)
                 res=true;
         }
             result.close();
+        dp.close();
         return res;
     }
 
@@ -202,7 +221,8 @@ public class TableClass {
     public static void deleteTableAlias(String tableName) {
         String query = QueryRepository.deleteTableAliasQuery(false).replace("@tablename@", tableName);
         try {
-            DBEngine.execStatement(query);
+            DataBaseProcessor dp=new DataBaseProcessor();
+            dp.exec(query);
         } catch (ConnectException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -210,7 +230,7 @@ public class TableClass {
         }
     }
 }
-    class AliasFiller implements IStatementFieldsSetter {
+    class AliasFiller implements QueryPreparer {
         FieldRecord values;
         long tableId;
 
@@ -220,33 +240,33 @@ public class TableClass {
         }
 
         @Override
-        public boolean setValues(PreparedStatement statement) throws SQLException {
-            statement.setLong(1, tableId);
-            statement.setString(2, values.getAlias());
-            statement.setString(3, values.getHeader());
-            statement.setString(4, values.getFieldType().toString());
+        public boolean prepareStatement(PreparedStatement preparedStatement) throws SQLException {
+            preparedStatement.setLong(1, tableId);
+            preparedStatement.setString(2, values.getAlias());
+            preparedStatement.setString(3, values.getHeader());
+            preparedStatement.setString(4, values.getFieldType().toString());
             return true;
         }
     }
 
 
-     class RecordInsertQueryFiller implements IStatementFieldsSetter {
+     class RecordInsertQueryFiller implements QueryPreparer {
         private final int BEGINRECORD = 52;
         private final int INTERVAL_RECORD = 1;
         private final int ENDRECORD = BEGINRECORD + INTERVAL_RECORD;
 
-        FieldsMap fields;
+        FieldsCollection fields;
         String tableName;
         LinkedList<String> records;
 
-        public RecordInsertQueryFiller(FieldsMap fields, String tableName, LinkedList<String> records) {
+        public RecordInsertQueryFiller(FieldsCollection fields, String tableName, LinkedList<String> records) {
             this.fields = fields;
             this.tableName = tableName;
             this.records = records;
         }
 
         @Override
-        public boolean setValues(PreparedStatement statement) throws SQLException {
+        public boolean prepareStatement(PreparedStatement statement) throws SQLException {
             boolean res = true;
 
             String valuesStr = null;
@@ -264,35 +284,35 @@ public class TableClass {
         }
 
         private String getValueForQuery(FieldRecord field, String value) throws FieldTypeError, ParseException { //throws FieldTypeError, ParseException {
-            FieldTypeDefines.FieldType f = field.getFieldType();
-            if (f == FieldTypeDefines.FieldType.DATETYPE) {
+            FieldType f = field.getFieldType();
+            if (f == FieldType.DATETYPE) {
 
             }
 
 
             if ((value != null) && value.length() > 0) {
-                if (f == FieldTypeDefines.FieldType.FLOATTYPE) {
+                if (f == FieldType.FLOATTYPE) {
                     value = value.replace(" ", "");
                 }
 
                 try {
                     if (validateValue(field, value)) {
-                        if (f == FieldTypeDefines.FieldType.FLOATTYPE) {
+                        if (f == FieldType.FLOATTYPE) {
                             if (DetectTypeClass.isRealNumber(value)) return getSQLNumeric(value);
-                        } else if (f == FieldTypeDefines.FieldType.DATETYPE) {
+                        } else if (f == FieldType.DATETYPE) {
                             if ((DetectTypeClass.isDateEn(value)))
                                 return getSQLDate(normDateStr(value));
                             if (DetectTypeClass.isDate(value))
                                 return getSQLDate(value);
 
-                        } else if ((f == FieldTypeDefines.FieldType.STRINGTYPE) || (f == FieldTypeDefines.FieldType.LONGSTRINGTYPE)) {
+                        } else if ((f == FieldType.STRINGTYPE) || (f == FieldType.LONGSTRINGTYPE)) {
                             return quoteString(value);
                         } else
                             return value;
                     }
                 } catch (FieldTypeError fieldTypeError) {
                     fieldTypeError.printStackTrace();
-                    loglib.Logger.putLineToLogs(new String[]{"AppLog", "ErrorLog"}, fieldTypeError.getMessage(), true);
+                    Logger.putLineToLogs(new String[]{"AppLog", "ErrorLog"}, fieldTypeError.getMessage(), true);
                     throw new FieldTypeError(fieldTypeError.getMessage());
                 } catch (DateFormatError dateFormatError) {
                     dateFormatError.printStackTrace();
@@ -323,10 +343,10 @@ public class TableClass {
 
         private String getSQLDate(String value) {
             try {
-                return TypeConverter.convertDateFormat(value, "dd.MM.yyyy", null);
+                return DateFormatter.convertDateFormat(value, "dd.MM.yyyy", null, null);
             } catch (ParseException e) {
                 e.printStackTrace();
-                loglib.Logger.putLineToLogs(new String[]{"AppLog", "ErrorLog"}, e.getMessage(), true);
+                Logger.putLineToLogs(new String[]{"AppLog", "ErrorLog"}, e.getMessage(), true);
             }
             return null;
         }
@@ -352,7 +372,7 @@ public class TableClass {
                 {
 
                     if (valuesStr.length() > 0) valuesStr.append(",");
-                    FieldTypeDefines.FieldType field = entry.getValue().getFieldType();
+                    FieldType field = entry.getValue().getFieldType();
                     String val = null;
                     // Оба исключения возникают в этом методе. В нем они обработаны, надо их пробросить выше, для вывода в журнал
                     val = getValueForQuery(entry.getValue(), records.get(i));
@@ -364,15 +384,15 @@ public class TableClass {
         }
 
         private boolean validateValue(FieldRecord field, String val) throws FieldTypeError {
-            if (((field.getFieldType() == FieldTypeDefines.FieldType.FLOATTYPE) && !(DetectTypeClass.isRealNumber(val))))
+            if (((field.getFieldType() == FieldType.FLOATTYPE) && !(DetectTypeClass.isRealNumber(val))))
                 throw new FieldTypeError("Ошибка типа поля " + field.toString() + " value=" + val);
-            else if (((field.getFieldType() == FieldTypeDefines.FieldType.DATETYPE) && (!DetectTypeClass.isDate(val))))
+            else if (((field.getFieldType() == FieldType.DATETYPE) && (!DetectTypeClass.isDate(val))))
                 throw new FieldTypeError("Ошибка типа поля " + field.toString() + " value=" + val);
-            else if (((field.getFieldType() == FieldTypeDefines.FieldType.INTTYPE) && (!DetectTypeClass.isInt(val))))
+            else if (((field.getFieldType() == FieldType.INTTYPE) && (!DetectTypeClass.isInt(val))))
                 throw new FieldTypeError("Ошибка типа поля " + field.toString() + " value=" + val);
-            else if (((field.getFieldType() == FieldTypeDefines.FieldType.BIGINTTYPE) && (!DetectTypeClass.isInt(val))))
+            else if (((field.getFieldType() == FieldType.BIGINTTYPE) && (!DetectTypeClass.isInt(val))))
                 throw new FieldTypeError("Ошибка типа поля " + field.toString() + " value=" + val);
-            else if (((field.getFieldType() == FieldTypeDefines.FieldType.DECIMALTYPE) && (!DetectTypeClass.isRealNumber(val))))
+            else if (((field.getFieldType() == FieldType.DECIMALTYPE) && (!DetectTypeClass.isRealNumber(val))))
                 throw new FieldTypeError("Ошибка типа поля " + field.toString() + " value=" + val);
             return true;
         }

@@ -7,8 +7,17 @@
     <groupId>tmc_file_importer</groupId>
     <artifactId>tmc_file_importer</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>tmc_file_importer</name>
+
+    <properties>
+<!--        <maven.compiler.source>1.11</maven.compiler.source>-->
+<!--        <maven.compiler.target>1.11</maven.compiler.target>-->
+        <maven.compiler.release>11</maven.compiler.release>
+        <github.global.server>github</github.global.server>
+        <github.maven-plugin>0.12</github.maven-plugin>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <build>
         <plugins>
@@ -40,6 +49,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -71,13 +81,14 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <version>3.8.1</version>-->
+<!--                <configuration>-->
+<!--                    <source>1.8</source>-->
+<!--                    <target>1.8</target>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 
@@ -92,13 +103,67 @@
             <artifactId>poi-ooxml</artifactId>
             <version>4.1.2</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.microsoft.sqlserver</groupId>-->
+<!--            <artifactId>mssql-jdbc</artifactId>-->
+<!--            <version>8.2.0.jre11</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-            <version>8.2.0.jre11</version>
+            <groupId>com.ppsdevelopment</groupId>
+            <artifactId>com.ppsdevelopment.jdbcprocessor</artifactId>
+            <version>2.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ppsdevelopment</groupId>
+            <artifactId>com.ppsdevelopment.converters</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ppsdevelopment</groupId>
+            <artifactId>com.ppsdevelopment.typeslib</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ppsdevelopment</groupId>
+            <artifactId>com.ppsdevelopment.loglib</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ppsdevelopment</groupId>
+            <artifactId>com.ppsdevelopment.configlib</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
     </dependencies>
+    <repositories>
+        <repository>
+            <id>loglib-mvn-repo</id>
+            <url>https://raw.github.com/ppetrlipetsk/loglib/mvn-repo/</url>
+        </repository>
+
+        <repository>
+            <id>com.ppetrlipetsk.typeslib</id>
+            <url>https://raw.github.com/ppetrlipetsk/typeslib/mvn-repo/</url>
+        </repository>
+        <repository>
+            <id>com.ppetrlipetsk.converters</id>
+            <url>https://raw.github.com/ppetrlipetsk/converters/mvn-repo/</url>
+        </repository>
+        <repository>
+            <id>com.ppetrlipetsk.jdbcprocessor</id>
+            <url>https://raw.github.com/ppetrlipetsk/jdbcprocessor/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>com.ppetrlipetsk.congiglib</id>
+            <url>https://raw.github.com/ppetrlipetsk/configlib/mvn-repo/</url>
+        </repository>
+
+    </repositories>
 
 </project>
 

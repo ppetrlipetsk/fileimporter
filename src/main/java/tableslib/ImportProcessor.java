@@ -1,17 +1,20 @@
 package tableslib;
 
-import databaselib.DBEngine;
-import defines.FieldTypeDefines;
-import defines.FieldsDefines;
-import fileengine.ExcelReader;
-import fileengine.IParserCallBack;
+import com.ppsdevelopment.converters.Transliterate;
+import com.ppsdevelopment.jdbcprocessor.DataBaseProcessor;
+import com.ppsdevelopment.loglib.Logger;
+import com.ppsdevelopment.tmcprocessor.typeslib.FieldRecord;
+import com.ppsdevelopment.tmcprocessor.typeslib.FieldType;
+import com.ppsdevelopment.tmcprocessor.typeslib.FieldTypeDefines;
+import com.ppsdevelopment.tmcprocessor.typeslib.FieldsDefaults;
+import excelengine.ExcelReader;
+import excelengine.IParserCallBack;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.xml.sax.SAXException;
 import throwlib.EIllegalFieldsSet;
 import throwlib.FieldTypeCorrectionError;
 import throwlib.FieldTypeError;
-import typeslib.DetectTypeClass;
-import typeslib.FieldConvertClass;
+
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -23,10 +26,10 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import static databaselib.QueryRepository.getRecordInsertQuery;
+import static environment.QueryRepository.getRecordInsertQuery;
 
 public class ImportProcessor {
-    FieldsMap fields=new FieldsMap(16, 0.75f,false);
+    FieldsCollection fields=new FieldsCollection(16, 0.75f,false);
 
     private final boolean storeAliases;
     private final boolean createDBTable;
@@ -71,7 +74,7 @@ public class ImportProcessor {
     }
 
     public void loadFields() throws OpenXML4JException, SAXException, IOException, SQLException, FieldTypeError, EIllegalFieldsSet {
-        FieldsMap fieldsSource=new FieldsMap(16, 0.75f,false);
+        FieldsCollection fieldsSource=new FieldsCollection(16, 0.75f,false);
         if (this.importTable) {
             loadFieldsFromDB(fieldsSource);
         }
@@ -91,19 +94,19 @@ public class ImportProcessor {
             throw new EIllegalFieldsSet("Несовпадение типа полей в таблицах.");
     }
 
-    private void loadFieldsFromDB(FieldsMap fieldsSource) throws SQLException {
+    private void loadFieldsFromDB(FieldsCollection fieldsSource) throws SQLException {
         long tableId = getTableId(tableName);
         ResultSet resultSet = tableslib.TableClass.getAliasesForTable(tableId);
         if ((resultSet != null)) {
             while (resultSet.next()) {
                 String fieldalias = resultSet.getString("fieldalias");
-                FieldTypeDefines.FieldType fieldType = TableClass.detectFieldType(resultSet.getString("fieldtype"));
+                FieldType fieldType = TableClass.detectFieldType(resultSet.getString("fieldtype"));
                 fieldsSource.getFields().put(fieldalias, new FieldRecord(fieldalias, fieldalias, null, fieldType));
             }
         }
     }
 
-    private boolean isFieldsEquals(FieldsMap fieldsSource){
+    private boolean isFieldsEquals(FieldsCollection fieldsSource){
         Iterator<Map.Entry<String, FieldRecord>> itr1 = fields.getFields().entrySet().iterator();
         while ((itr1.hasNext())) {
             Map.Entry<String, FieldRecord> entry = itr1.next();
@@ -119,17 +122,17 @@ public class ImportProcessor {
         Iterator<Map.Entry<String, FieldRecord>> itr1 = fields.getFields().entrySet().iterator();
         while ((itr1.hasNext())) {
             Map.Entry<String, FieldRecord> entry = itr1.next();
-            if (entry.getValue().getFieldType()==null) entry.getValue().setFieldType(FieldTypeDefines.FieldType.STRINGTYPE);
+            if (entry.getValue().getFieldType()==null) entry.getValue().setFieldType(FieldType.STRINGTYPE);
         }
     }
 
     private String getFieldNameByStr(String cellname) {
-        String alias=FieldConvertClass.transLiterate(cellname);
+        String alias= Transliterate.toTransliterate(cellname);
         String fieldName=getFieldNameByAlias(alias);
         return fieldName;
     }
 
-    private FieldTypeDefines.FieldType getFieldTypeByStr(String s){
+    private FieldType getFieldTypeByStr(String s){
         return DetectTypeClass.getFieldType(s);
     }
 
@@ -171,7 +174,7 @@ public class ImportProcessor {
         }
     }
 
-    private  void correctLineRecordsType(LinkedList<String> line, FieldsMap fields) throws FieldTypeCorrectionError {
+    private  void correctLineRecordsType(LinkedList<String> line, FieldsCollection fields) throws FieldTypeCorrectionError {
         Iterator<Map.Entry<String, FieldRecord>> itr1 = fields.getFields().entrySet().iterator();
         try {
             int i=0;
@@ -181,10 +184,10 @@ public class ImportProcessor {
                 String value = line.get(i);
                 Map.Entry<String, FieldRecord> entry = itr1.next();
 
-                boolean b=FieldsDefines.isFieldExists(this.tableName,entry.getValue().getAlias());//.fields.containsKey(entry.getValue().getAlias());
+                boolean b= FieldsDefaults.isFieldExists(this.tableName,entry.getValue().getAlias());//.fields.containsKey(entry.getValue().getAlias());
                 if (!b){
-                    FieldTypeDefines.FieldType currentFieldType = entry.getValue().getFieldType();
-                    FieldTypeDefines.FieldType newFieldType = DetectTypeClass.getFieldType(value);
+                    FieldType currentFieldType = entry.getValue().getFieldType();
+                    FieldType newFieldType = DetectTypeClass.getFieldType(value);
 
                     int ct = FieldRecord.compareTypesEnhanced(currentFieldType, newFieldType);
                     if ((ct != 0) && (ct != 1) && (value.length() > 0)) {
@@ -192,7 +195,7 @@ public class ImportProcessor {
                     }
                 }
                 else
-                    setCorrectionFieldType(fields.getFields(), entry.getValue().getAlias(), FieldsDefines.getFieldType(this.tableName, entry.getValue().getAlias()));
+                    setCorrectionFieldType(fields.getFields(), entry.getValue().getAlias(), FieldsDefaults.getFieldType(this.tableName, entry.getValue().getAlias()));
 
                 i++;
             }
@@ -202,7 +205,7 @@ public class ImportProcessor {
         }
     }
 
-    private  void setCorrectionFieldType(LinkedHashMap<String,FieldRecord> fields, String fieldName, FieldTypeDefines.FieldType fieldType) {
+    private  void setCorrectionFieldType(LinkedHashMap<String,FieldRecord> fields, String fieldName, FieldType fieldType) {
         FieldRecord field=fields.get(fieldName);
         field.setFieldType(fieldType);
         fields.put(fieldName,field);
@@ -246,12 +249,12 @@ public class ImportProcessor {
 
             } catch(SQLException | ConnectException e){
                 e.printStackTrace();
-                loglib.Logger.putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка создания таблицы " + e.getMessage(), true);
+                Logger.putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка создания таблицы " + e.getMessage(), true);
                 throw new SQLException(e.getMessage());
             }
         catch(FieldTypeError fieldTypeError){
                 fieldTypeError.printStackTrace();
-                loglib.Logger.putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка создания таблицы " + fieldTypeError.getMessage(), true);
+                Logger.putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка создания таблицы " + fieldTypeError.getMessage(), true);
                 throw new SQLException(fieldTypeError.getMessage());
             }
 
@@ -290,15 +293,16 @@ public class ImportProcessor {
 
     }
 
-    private void insertRecord(FieldsMap fields, String tableName, LinkedList<String> list) throws SQLException {
+    private void insertRecord(FieldsCollection fields, String tableName, LinkedList<String> list) throws SQLException {
 
         String query=getRecordInsertQuery().replace("@tablename@",tableName);
         RecordInsertQueryFiller filler=new RecordInsertQueryFiller(fields, tableName, list);
         query=query.replace("@fields@",filler.getFieldsNamesQueryString());
 
         try {
+            DataBaseProcessor dp=new DataBaseProcessor();
             query=query.replace("@values@",filler.getValuesStr());
-            DBEngine.insertQuery(query);
+            dp.exec(query);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException(e);
@@ -306,6 +310,8 @@ public class ImportProcessor {
             e.printStackTrace();
         } catch (FieldTypeError fieldTypeError) {
             fieldTypeError.printStackTrace();
+        } catch (ConnectException e) {
+            e.printStackTrace();
         }
 
     }

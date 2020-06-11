@@ -9,6 +9,6 @@
         <module name="tmc_file_importer" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="9" />
+    <bytecodeTargetLevel target="11" />
   </component>
 </project>

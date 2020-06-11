@@ -1,5 +1,7 @@
 package loglib;
 
+import com.ppsdevelopment.loglib.Logger;
+
 import java.sql.SQLException;
 
 public class ErrorsClass {
