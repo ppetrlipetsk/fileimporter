@@ -13,7 +13,9 @@
     <properties>
 <!--        <maven.compiler.source>1.11</maven.compiler.source>-->
 <!--        <maven.compiler.target>1.11</maven.compiler.target>-->
-        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+<!--        <maven.compiler.release>11</maven.compiler.release>-->
         <github.global.server>github</github.global.server>
         <github.maven-plugin>0.12</github.maven-plugin>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -121,7 +123,7 @@
         <dependency>
             <groupId>com.ppsdevelopment</groupId>
             <artifactId>com.ppsdevelopment.typeslib</artifactId>
-            <version>1.0.0</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.ppsdevelopment</groupId>
@@ -132,7 +134,7 @@
         <dependency>
             <groupId>com.ppsdevelopment</groupId>
             <artifactId>com.ppsdevelopment.configlib</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
@@ -145,6 +147,10 @@
         <repository>
             <id>com.ppetrlipetsk.typeslib</id>
             <url>https://raw.github.com/ppetrlipetsk/typeslib/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
         </repository>
         <repository>
             <id>com.ppetrlipetsk.converters</id>
@@ -159,8 +165,13 @@
             </snapshots>
         </repository>
         <repository>
-            <id>com.ppetrlipetsk.congiglib</id>
+            <id>com.ppetrlipetsk.configlib</id>
             <url>https://raw.github.com/ppetrlipetsk/configlib/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+
         </repository>
 
     </repositories>
