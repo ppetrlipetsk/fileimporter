@@ -11,17 +11,22 @@ public class ApplicationGlobals {
     private static final int LINESLIMIT = 2;
     private static final String ERRORLOGFILENAME = "errorlog.log";
     private static final String APPLOGFILENAME = "applog.log";
-    private static final String ERRORLOG = "errorlog";
-    private static final String APPLOG = "applog";
+    private static final String ERRORLOGName = "errorlog";
+    private static final String APPLOGName = "applog";
 
     private static String instanceName;// = "localhost\\MSSQLSERVER";
     private static String databaseName;// = "dogc";
     private static String userName;// = "sa";
     private static String dbPassword;// = "win";
     private static String connectionUrl = "jdbc:sqlserver://%1$s;databaseName=%2$s;integratedSecurity=true";
+    private static final String[] logs={APPLOGName, ERRORLOGName};
 
     public static void setDELIMITER(String DELIMITER) {
         ApplicationGlobals.DELIMITER = DELIMITER;
+    }
+
+    public static String[] getLogs() {
+        return logs;
     }
 
     public static int getLINESLIMIT() {
@@ -36,12 +41,20 @@ public class ApplicationGlobals {
         return APPLOGFILENAME;
     }
 
-    public static String getERRORLOG() {
-        return ERRORLOG;
+    public static String getERRORLOGName() {
+        return ERRORLOGName;
     }
 
-    public static String getAPPLOG() {
-        return APPLOG;
+    public static String getAPPLOGName() {
+        return APPLOGName;
+    }
+
+    public static String getInstanceName() {
+        return instanceName;
+    }
+
+    public static String getUserName() {
+        return userName;
     }
 
     public static String getDBInstanceName() {

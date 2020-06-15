@@ -4,7 +4,8 @@ import com.ppsdevelopment.configlib.ConfigReader;
 import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
 import com.ppsdevelopment.loglib.Logger;
 import com.ppsdevelopment.tmcprocessor.typeslib.FieldsDefaults;
-
+import com.ppsdevelopment.programparameters.ProgramParameters;
+import com.ppsdevelopment.programparameters.ProgramParameter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
@@ -47,8 +48,8 @@ public class ApplicationInitializer {
     }
 
     private static boolean initLogClass() {
-        new Logger(Logger.ERRORLOG,ProgramParameters.getParameterValue(ApplicationGlobals.getERRORLOG()),ApplicationGlobals.getLINESLIMIT());
-        new Logger(Logger.APPLOG,ProgramParameters.getParameterValue(ApplicationGlobals.getAPPLOG()), ApplicationGlobals.getLINESLIMIT());
+        new Logger(Logger.ERRORLOG,ProgramParameters.getParameterValue(ApplicationGlobals.getERRORLOGName()),ApplicationGlobals.getLINESLIMIT());
+        new Logger(Logger.APPLOG,ProgramParameters.getParameterValue(ApplicationGlobals.getAPPLOGName()), ApplicationGlobals.getLINESLIMIT());
         try {
             Logger.getLogger(Logger.ERRORLOG).init();
             Logger.getLogger(Logger.APPLOG).init();
@@ -116,8 +117,7 @@ public class ApplicationInitializer {
             return true;
         }
         catch (Exception e){
-            Logger.getLogger(Logger.APPLOG).putLine("Ошибка подключения к БД...",true);
-            Logger.getLogger(Logger.ERRORLOG).putLine("Ошибка подключения к БД..."+ApplicationGlobals.getDBInstanceName());
+            Logger.putLineToLogs(ApplicationGlobals.getLogs(),"Ошибка подключения к БД..."+ApplicationGlobals.getDBInstanceName(),true);
         }
         return false;
     }
@@ -131,7 +131,7 @@ public class ApplicationInitializer {
         ProgramParameters.setParameterProperties("importtable","",true);
         ProgramParameters.setParameterProperties("tabledropnonprompt","false",false);
         ProgramParameters.setParameterProperties("fieldsfile","",false);
-        ProgramParameters.setParameterProperties(ApplicationGlobals.getAPPLOG(),"",true);
-        ProgramParameters.setParameterProperties(ApplicationGlobals.getERRORLOG(),"",true);
+        ProgramParameters.setParameterProperties(ApplicationGlobals.getAPPLOGName(),"",true);
+        ProgramParameters.setParameterProperties(ApplicationGlobals.getERRORLOGName(),"",true);
     }
 }

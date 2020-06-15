@@ -41,11 +41,9 @@ fieldsfile - путь к файлу предопределенных значе�
 
 import environment.*;
 import tableslib.ImportProcessor;
-
+import com.ppsdevelopment.programparameters.ProgramParameters;
 import java.util.Date;
-
 import com.ppsdevelopment.loglib.Logger;
-
 import environment.ProgramMesssages;
 
 public class MainClass {

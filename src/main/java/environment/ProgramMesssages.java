@@ -1,6 +1,7 @@
 package environment;
 
 import com.ppsdevelopment.loglib.Logger;
+import com.ppsdevelopment.programparameters.ProgramParameters;
 
 public class ProgramMesssages {
     public static void putProgramParamsToLog() {

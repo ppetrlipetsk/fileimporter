@@ -11,10 +11,11 @@
     <name>tmc_file_importer</name>
 
     <properties>
+        <maven.compiler.release>14</maven.compiler.release>
 <!--        <maven.compiler.source>1.11</maven.compiler.source>-->
 <!--        <maven.compiler.target>1.11</maven.compiler.target>-->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+<!--        <maven.compiler.source>1.8</maven.compiler.source>-->
+<!--        <maven.compiler.target>1.8</maven.compiler.target>-->
 <!--        <maven.compiler.release>11</maven.compiler.release>-->
         <github.global.server>github</github.global.server>
         <github.maven-plugin>0.12</github.maven-plugin>
@@ -83,14 +84,14 @@
                     </execution>
                 </executions>
             </plugin>
-<!--            <plugin>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <version>3.8.1</version>-->
-<!--                <configuration>-->
-<!--                    <source>1.8</source>-->
-<!--                    <target>1.8</target>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -113,12 +114,12 @@
         <dependency>
             <groupId>com.ppsdevelopment</groupId>
             <artifactId>com.ppsdevelopment.jdbcprocessor</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.ppsdevelopment</groupId>
             <artifactId>com.ppsdevelopment.converters</artifactId>
-            <version>1.0.0</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.ppsdevelopment</groupId>
@@ -135,6 +136,11 @@
             <groupId>com.ppsdevelopment</groupId>
             <artifactId>com.ppsdevelopment.configlib</artifactId>
             <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ppsdevelopment</groupId>
+            <artifactId>com.ppsdevelopment.programparameters</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
@@ -155,6 +161,10 @@
         <repository>
             <id>com.ppetrlipetsk.converters</id>
             <url>https://raw.github.com/ppetrlipetsk/converters/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
         </repository>
         <repository>
             <id>com.ppetrlipetsk.jdbcprocessor</id>
@@ -171,9 +181,20 @@
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
             </snapshots>
-
         </repository>
-
+        <repository>
+            <id>com.ppetrlipetsk.programparameters</id>
+            <url>https://raw.github.com/ppetrlipetsk/programparameters/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+        </repository>
     </repositories>
 
 </project>
