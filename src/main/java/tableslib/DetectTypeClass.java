@@ -1,6 +1,6 @@
 package tableslib;
 
-import com.ppsdevelopment.tmcprocessor.typeslib.FieldType;
+import com.ppsdevelopment.tmcprocessor.tmctypeslib.FieldType;
 
 public class DetectTypeClass {
 

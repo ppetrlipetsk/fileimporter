@@ -2,33 +2,32 @@ package environment;
 
 import com.ppsdevelopment.configlib.ConfigReader;
 import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
-import com.ppsdevelopment.loglib.Logger;
 import com.ppsdevelopment.tmcprocessor.typeslib.FieldsDefaults;
 import com.ppsdevelopment.programparameters.ProgramParameters;
 import com.ppsdevelopment.programparameters.ProgramParameter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Map;
 
 public class ApplicationInitializer {
-    private String[] logs;
+    private static String[] logs={ApplicationGlobals.getAPPLOGName(),ApplicationGlobals.getERRORLOGName()};
+
 
     public String[] getLogs() {
         return logs;
     }
 
     public void setLogs(String[] logs) {
-        this.logs = logs;
+        logs = logs;
     }
 
-    public static boolean initApplication(String[] args) {
+    public static boolean initApplication(String[] args) throws IOException, Exception {
         initProgramParametersValues();
         if (!importProgramParameters(args)) return false;
         if (!importConfigParameters()) return false;
-        if (!initLogClass()) return false;
-        if (!loadFieldsDefaultTypes()) return false;
-        if (!dataBaseConnection()) return false;
-
+        loadFieldsDefaultTypes();
+        dataBaseConnection();
         return true;
     }
 
@@ -44,20 +43,6 @@ public class ApplicationInitializer {
     private static boolean importProgramParameters(String[] args) {
         if ((args.length == 0)|| (!parseProgramParameters(args))) return false;
             prepareProgramParameters();
-        return true;
-    }
-
-    private static boolean initLogClass() {
-        new Logger(Logger.ERRORLOG,ProgramParameters.getParameterValue(ApplicationGlobals.getERRORLOGName()),ApplicationGlobals.getLINESLIMIT());
-        new Logger(Logger.APPLOG,ProgramParameters.getParameterValue(ApplicationGlobals.getAPPLOGName()), ApplicationGlobals.getLINESLIMIT());
-        try {
-            Logger.getLogger(Logger.ERRORLOG).init();
-            Logger.getLogger(Logger.APPLOG).init();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Ошибка инициализации системы логгирования. Аварийное завершение работы.");
-            return false;
-        }
         return true;
     }
 
@@ -91,35 +76,24 @@ public class ApplicationInitializer {
         }
     }
 
-    private static boolean loadFieldsDefaultTypes(){
-        boolean result=true;
+    private static void  loadFieldsDefaultTypes() throws IOException, SQLException, ClassNotFoundException {
         if (ProgramParameters.parameterExists("fieldsfile")) {
             String fileName = ProgramParameters.getParameterValue("fieldsfile");
             String tableName = ProgramParameters.getParameterValue("tablename");
             try {
                 FieldsDefaults.loadDefaultFields(fileName, tableName);
             } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("Ошибка загрузки типов полей. Ошибка:" + e.getMessage());
-                Logger.getLogger(Logger.APPLOG).putLine("Ошибка загрузки типов полей. Ошибка:" + e.getMessage(), true);
-                Logger.getLogger(Logger.ERRORLOG).putLine("Ошибка загрузки типов полей. Ошибка:" + e.getMessage(), true);
-                result = false;
+                throw new IOException("Ошибка загрузки информации о предопределенных типах полей. Сообщение об ошибке:"+e.toString());
             }
         }
-        return result;
     }
 
-    private static boolean dataBaseConnection() {
+    private static void dataBaseConnection() throws Exception {
         try {
-
             DataBaseConnector.connectDataBase(ApplicationGlobals.getConnectionUrl(),ApplicationGlobals.getDBUserName(),ApplicationGlobals.getDbPassword(),ApplicationGlobals.getDBInstanceName(),ApplicationGlobals.getDatabaseName());
-            Logger.appLog("Соединение с БД:"+ApplicationGlobals.getDBInstanceName()+":SUCCESS\n", true);
-            return true;
+        } catch (SQLException|ClassNotFoundException e) {
+          throw new Exception("Ошибка подключения к БД..."+ApplicationGlobals.getDBInstanceName()+" Сообщение об ошибке:"+e.toString());
         }
-        catch (Exception e){
-            Logger.putLineToLogs(ApplicationGlobals.getLogs(),"Ошибка подключения к БД..."+ApplicationGlobals.getDBInstanceName(),true);
-        }
-        return false;
     }
 
     private static void initProgramParametersValues(){

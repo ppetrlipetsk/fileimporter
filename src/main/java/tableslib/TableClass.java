@@ -10,8 +10,6 @@ import com.ppsdevelopment.tmcprocessor.typeslib.FieldRecord;
 import com.ppsdevelopment.tmcprocessor.typeslib.FieldType;
 import com.ppsdevelopment.tmcprocessor.typeslib.FieldTypeDefines;
 
-
-
 import environment.QueryRepository;
 import throwlib.DateFormatError;
 import throwlib.FieldTypeError;

@@ -7,31 +7,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be856d62-7789-4249-8585-6b0cad7cb513" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/history.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/environment/ApplicationGlobals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/environment/ApplicationGlobals.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/environment/ApplicationInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/environment/ApplicationInitializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/environment/ProgramMesssages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/environment/ProgramMesssages.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/environment/ProgramParameter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/environment/ProgramParameters.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/loglib/ErrorsClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/loglib/ErrorsClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/DetectTypeClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tableslib/DetectTypeClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/FieldsCollection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/ImportProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tableslib/ImportProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/TableClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tableslib/TableClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/MainClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MainClass.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/loglib/ErrorsClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/loglib/ErrorsClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/loglib/MessagesClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/loglib/MessagesClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tableslib/AliasFiller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/AliasFiller.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor$DataImportCallBack.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor$DataImportCallBack.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor$FieldsCallback.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor$FieldsCallback.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tableslib/RecordInsertQueryFiller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/RecordInsertQueryFiller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tableslib/TableClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/TableClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/DateFormatError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/DateFormatError.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/EIllegalFieldsSet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/EIllegalFieldsSet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeCorrectionError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeCorrectionError.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeError.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/LineReadError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/LineReadError.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/NullStringLineError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/NullStringLineError.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/TableCreationError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/TableCreationError.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -229,7 +220,7 @@
       <workItem from="1591798081011" duration="1023000" />
       <workItem from="1591799244288" duration="21689000" />
       <workItem from="1592220204542" duration="2573000" />
-      <workItem from="1592223387332" duration="7274000" />
+      <workItem from="1592223387332" duration="24549000" />
     </task>
     <servers />
   </component>
@@ -267,18 +258,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/tableslib/ImportProcessor.java</url>
-          <line>97</line>
+          <line>94</line>
           <option name="timeStamp" value="142" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/tableslib/ImportProcessor.java</url>
-          <line>237</line>
+          <line>235</line>
           <option name="timeStamp" value="147" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/MainClass.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="157" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

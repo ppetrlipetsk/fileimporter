@@ -39,9 +39,14 @@ fieldsfile - путь к файлу предопределенных значе�
 // primary table
 // tablename=zmm filename=c://files//tmc//xls//zmm.xlsx fieldscount=287 storealiases=true  createtable=true  applog=zmm_applog.log   errorlog=zmm_errorlog.log  importtable=false tabledropnonprompt=false
 
+import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
 import environment.*;
+import org.apache.commons.math3.analysis.function.Log;
 import tableslib.ImportProcessor;
 import com.ppsdevelopment.programparameters.ProgramParameters;
+
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import com.ppsdevelopment.loglib.Logger;
 import environment.ProgramMesssages;
@@ -49,38 +54,61 @@ import environment.ProgramMesssages;
 public class MainClass {
 
     public static void main(String[] args) {
-        ImportProcessor importProcessor;
+        try(
+                Logger appLogger=new Logger(ApplicationGlobals.getERRORLOGName(),ProgramParameters.getParameterValue(ApplicationGlobals.getERRORLOGName()),ApplicationGlobals.getLINESLIMIT());
+                Logger errorsLogger=new Logger(ApplicationGlobals.getAPPLOGName(),ProgramParameters.getParameterValue(ApplicationGlobals.getAPPLOGName()), ApplicationGlobals.getLINESLIMIT());
+        ) {
+            try {
+                if (!ApplicationInitializer.initApplication(args)) {
+                    System.out.println("Инициализация пограммы прошла с ошибкой!");
+                    ProgramMesssages.showAppParams();
+                } else {
+                    Logger.putLineToLog(ApplicationGlobals.getAPPLOGName(), "Начало работы программы импорта: " + new Date().toString(), true);
 
-        if (!ApplicationInitializer.initApplication(args)) {
-            System.out.println("Инициализация пограммы прошла с ошибкой!");
-            ProgramMesssages.showAppParams();
-        } else {
-                Logger.appLog("Начало работы программы импорта: " + new Date().toString(), true);
-                ProgramMesssages.putProgramParamsToLog();
-
-                String filename= ProgramParameters.getParameterValue("filename");
-                String tablename= ProgramParameters.getParameterValue("tablename");
-                int fieldscount= Integer.valueOf(ProgramParameters.getParameterValue("fieldscount"));
-                Boolean storealiases= Boolean.valueOf(ProgramParameters.getParameterValue("fieldscount"));
-                Boolean createtable= Boolean.valueOf(ProgramParameters.getParameterValue("createtable"));
-                Boolean importtable= Boolean.valueOf(ProgramParameters.getParameterValue("importtable"));
-                Boolean tabledropnonprompt= Boolean.valueOf(ProgramParameters.getParameterValue("tabledropnonprompt"));
-
-                importProcessor = new ImportProcessor(filename, tablename, fieldscount, storealiases, createtable, importtable,tabledropnonprompt);
-
-                try {
+                    ProgramMesssages.putProgramParamsToLog();
+                    ImportProcessor importProcessor=importProcessorInstance();
                     importProcessor.loadFields();
                     importProcessor.loadRecordsToDataBase();
-                    Logger.appLog("Импортировано:" + importProcessor.getRowCount() + " записей.", true);
-                    Logger.appLog("Импорт завершен успешно.", true);
-                } catch (Exception e) {
-                    Logger.appLog("Импорт завершен с ошибками.", true);
-                    Logger.appLog("Сообщение об ошибке:" + e, true);
+
+                    Logger.putLineToLog(ApplicationGlobals.getAPPLOGName(), "Импортировано:" + importProcessor.getRowCount() + " записей. \n Импорт завершен успешно.", true);
+                    Logger.putLineToLog(ApplicationGlobals.getAPPLOGName(), "Время завершения:" + new Date().toString(), true);
                 }
-
-                Logger.appLog("Время завершения:" + new Date().toString(), true);
-
             }
-            Logger.closeAll();
-    }
+            catch (SQLException e) {
+                e.printStackTrace();
+                Logger.putLineToLog(ApplicationGlobals.getERRORLOGName(),"Ошибка уровня базы данных. Сообщение об ошибке:"+e.toString());
+            }
+            catch (ClassNotFoundException e) {
+                Logger.putLineToLog(ApplicationGlobals.getERRORLOGName(),"Драйвер поддержки работы с базой данных не найден. Сообщение об ошибке:"+e.toString());
+                e.printStackTrace();
+            }
+            catch (Exception e) {
+                Logger.putLineToLog(ApplicationGlobals.getERRORLOGName(), "Импорт завершен с ошибками.\nСообщение об ошибке:\" + e", true);
+            }
+            finally {
+                try {
+                    DataBaseConnector.close();
+                } catch (SQLException e) {
+                    System.out.println("Ошибка закрытия соединения с БД. Сообщение об ошибке:" + e.toString());
+                }
+            }
+        }
+        catch (IOException e){
+            e.printStackTrace();
+            System.out.println("Ошибка инициализации системы логгирования. Аварийное завершение работы.");
+        }
+}
+
+private static ImportProcessor importProcessorInstance(){
+    String filename = ProgramParameters.getParameterValue("filename");
+    String tablename = ProgramParameters.getParameterValue("tablename");
+    int fieldscount = Integer.valueOf(ProgramParameters.getParameterValue("fieldscount"));
+    Boolean storealiases = Boolean.valueOf(ProgramParameters.getParameterValue("fieldscount"));
+    Boolean createtable = Boolean.valueOf(ProgramParameters.getParameterValue("createtable"));
+    Boolean importtable = Boolean.valueOf(ProgramParameters.getParameterValue("importtable"));
+    Boolean tabledropnonprompt = Boolean.valueOf(ProgramParameters.getParameterValue("tabledropnonprompt"));
+    ImportProcessor importProcessor= new ImportProcessor(filename, tablename, fieldscount, storealiases, createtable, importtable, tabledropnonprompt);
+    return importProcessor;
+}
+
 }

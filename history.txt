@@ -1,0 +1,2 @@
+17/06/2020
+- .commit before DetectTypeClass move to tmctypeslib

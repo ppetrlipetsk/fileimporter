@@ -4,17 +4,20 @@ import com.ppsdevelopment.loglib.Logger;
 import com.ppsdevelopment.programparameters.ProgramParameters;
 
 public class ProgramMesssages {
+    private static void appLog(String message){
+        Logger.putLineToLog(ApplicationGlobals.getAPPLOGName(),message,true);
+    }
+
     public static void putProgramParamsToLog() {
-        Logger.appLog("Задание на добавление данных в БД.",true);
-        Logger.appLog("Имя файла:"+ProgramParameters.getParameterValue("filename"),true);
-        Logger.appLog("Имя таблицы:"+ProgramParameters.getParameterValue("tablename"),true);
-        Logger.appLog("Количество полей:"+ProgramParameters.getParameterValue("fieldscount"),true);
-        Logger.appLog("Сохранять псевдонимы полей:"+ProgramParameters.getParameterValue("storealiases"),true);
-        Logger.appLog("Создавать таблицу::"+ProgramParameters.getParameterValue("createtable"),true);
-        Logger.appLog("Имя файла журнала программы:"+ProgramParameters.getParameterValue("applog"),true);
-        Logger.appLog("Имя файла журнала ошибок:"+ProgramParameters.getParameterValue("errorlog"),true);
-        //Logger.appLog("Перезаписывать таблицу БД:"+parameters.get("tableoverwrite").getValue(),true);
-        Logger.appLog("Импорт обновления:"+ProgramParameters.getParameterValue("importtable"),true);
+        appLog("Задание на добавление данных в БД.");
+        appLog("Имя файла:"+ProgramParameters.getParameterValue("filename"));
+        appLog("Имя таблицы:"+ProgramParameters.getParameterValue("tablename"));
+        appLog("Количество полей:"+ProgramParameters.getParameterValue("fieldscount"));
+        appLog("Сохранять псевдонимы полей:"+ProgramParameters.getParameterValue("storealiases"));
+        appLog("Создавать таблицу::"+ProgramParameters.getParameterValue("createtable"));
+        appLog("Имя файла журнала программы:"+ProgramParameters.getParameterValue("applog"));
+        appLog("Имя файла журнала ошибок:"+ProgramParameters.getParameterValue("errorlog"));
+        appLog("Импорт обновления:"+ProgramParameters.getParameterValue("importtable"));
     }
 
     public static void showAppParams() {

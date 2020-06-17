@@ -5,7 +5,6 @@ import com.ppsdevelopment.jdbcprocessor.DataBaseProcessor;
 import com.ppsdevelopment.loglib.Logger;
 import com.ppsdevelopment.tmcprocessor.typeslib.FieldRecord;
 import com.ppsdevelopment.tmcprocessor.typeslib.FieldType;
-import com.ppsdevelopment.tmcprocessor.typeslib.FieldTypeDefines;
 import com.ppsdevelopment.tmcprocessor.typeslib.FieldsDefaults;
 import excelengine.ExcelReader;
 import excelengine.IParserCallBack;
@@ -14,8 +13,6 @@ import org.xml.sax.SAXException;
 import throwlib.EIllegalFieldsSet;
 import throwlib.FieldTypeCorrectionError;
 import throwlib.FieldTypeError;
-
-
 import java.io.IOException;
 import java.net.ConnectException;
 import java.sql.ResultSet;
@@ -38,7 +35,7 @@ public class ImportProcessor {
     private final int fieldsCount;
     private int rowCount;
     private boolean importTable;
-    private String dbTableName; //имя таблицы БД, в которую будут записываться строки данных. Строится на основе tableName и усли importTable=true, то добавляется суффикс "_import"
+    private String dbTableName; //имя таблицы БД, в которую будут записываться строки данных. Строится на основе tableName и если importTable=true, то добавляется суффикс "_import"
     private boolean tableDropNonPrompt;
 
 
@@ -150,7 +147,8 @@ public class ImportProcessor {
         StringBuilder s=new StringBuilder(alias);
         boolean b=true;
         while(b) {
-            String indxStr=new Integer(fieldIndex).toString();
+            //String indxStr= Integer.toString(fieldIndex);
+            String indxStr= String.valueOf(fieldIndex);
             s.append(indxStr);
             if (fields.getFields().containsKey(s.toString())) {
                 s.delete(alias.length(),s.length());
