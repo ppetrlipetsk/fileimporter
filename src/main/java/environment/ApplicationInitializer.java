@@ -2,7 +2,8 @@ package environment;
 
 import com.ppsdevelopment.configlib.ConfigReader;
 import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
-import com.ppsdevelopment.tmcprocessor.typeslib.FieldsDefaults;
+import com.ppsdevelopment.loglib.Logger;
+import com.ppsdevelopment.tmcprocessor.tmctypeslib.FieldsDefaults;
 import com.ppsdevelopment.programparameters.ProgramParameters;
 import com.ppsdevelopment.programparameters.ProgramParameter;
 import java.io.IOException;
@@ -26,9 +27,15 @@ public class ApplicationInitializer {
         initProgramParametersValues();
         if (!importProgramParameters(args)) return false;
         if (!importConfigParameters()) return false;
+        initLogger();
         loadFieldsDefaultTypes();
         dataBaseConnection();
         return true;
+    }
+
+    private static void initLogger() throws IOException {
+       new Logger(ApplicationGlobals.getERRORLOGName(),ProgramParameters.getParameterValue(ApplicationGlobals.getERRORLOGName()),ApplicationGlobals.getLINESLIMIT());
+       new Logger(ApplicationGlobals.getAPPLOGName(),ProgramParameters.getParameterValue(ApplicationGlobals.getAPPLOGName()), ApplicationGlobals.getLINESLIMIT());
     }
 
     private static boolean importConfigParameters() {
@@ -108,4 +115,5 @@ public class ApplicationInitializer {
         ProgramParameters.setParameterProperties(ApplicationGlobals.getAPPLOGName(),"",true);
         ProgramParameters.setParameterProperties(ApplicationGlobals.getERRORLOGName(),"",true);
     }
+
 }

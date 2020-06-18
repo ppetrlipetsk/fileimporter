@@ -39,9 +39,31 @@ fieldsfile - путь к файлу предопределенных значе�
 // primary table
 // tablename=zmm filename=c://files//tmc//xls//zmm.xlsx fieldscount=287 storealiases=true  createtable=true  applog=zmm_applog.log   errorlog=zmm_errorlog.log  importtable=false tabledropnonprompt=false
 
+/**
+ * Загружается два вида таблиц (имя таблицы задается параметром "tablename"):
+ * - основная таблица, которая хранится в БД и с ней ведется работа из других приложений
+ * (таблица считается основной, если параметр importtable=false). Иначе, таблица считается таблицей изменений.
+ * - таблица импорта изменений. Эта таблица загружается в БД с суффиксом _import, далее анализируются различия,
+ * и данные из нее загружаются в основную таблицу.
+ * При загрузке таблицы, о ней создается запись в таблице "tables" (если установлен параметр "createtable=true")
+ * и псевдонимы полей в таблице "aliases" (если установлен параметр "storealiases=true").
+ *
+ * При загрузке таблицы есть следующие ситуации:
+ *  1. Таблицы загружаются в чистую БД.
+ *  2. При загрузке основной таблицы, другая основная таблица с тем же именем, уже загружена
+ *  3. При загрузке таблицы изменений, другая таблица изменений с тем же именем, уже существует в БД.
+ *  4. При загрузке таблицы изменений, основной таблицы не существует.
+ *
+ * Если таблица существует и требуется ее перезапись, то, для того, чтобы перезапись прошла без возникновения
+ * исключения, нужно задать параметр "tabledropnonprompt=true".
+ *  Загружаемые данные берутся из файла с именем, заданным параметром "filename"
+ *  При анализе таблицы XLSX, производится чтение всей таблицы и определение типов полей.
+ *  Чтобы вручную задать тип поля, следует указать wимя_поля=тип_поля в файле, указанном в параметре fieldsfile.
+ *  Например: fieldsfile=zmm.ini
+ */
+
 import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
 import environment.*;
-import org.apache.commons.math3.analysis.function.Log;
 import tableslib.ImportProcessor;
 import com.ppsdevelopment.programparameters.ProgramParameters;
 
@@ -51,13 +73,13 @@ import java.util.Date;
 import com.ppsdevelopment.loglib.Logger;
 import environment.ProgramMesssages;
 
+/**
+ * tablename=zmm filename=c://files//tmc//xls//zmm_short.xlsx fieldscount=287 storealiases=true  createtable=true  applog=zmm_applog.log   errorlog=zmm_errorlog.log  importtable=false tabledropnonprompt=true fieldsfile=zmm.ini
+ * tablename=zmm filename=c://files//tmc//xls//zmm_short.xlsx fieldscount=287 storealiases=false  createtable=true  applog=zmm_applog.log   errorlog=zmm_errorlog.log  importtable=true tabledropnonprompt=true fieldsfile=zmm.ini
+ */
 public class MainClass {
 
     public static void main(String[] args) {
-        try(
-                Logger appLogger=new Logger(ApplicationGlobals.getERRORLOGName(),ProgramParameters.getParameterValue(ApplicationGlobals.getERRORLOGName()),ApplicationGlobals.getLINESLIMIT());
-                Logger errorsLogger=new Logger(ApplicationGlobals.getAPPLOGName(),ProgramParameters.getParameterValue(ApplicationGlobals.getAPPLOGName()), ApplicationGlobals.getLINESLIMIT());
-        ) {
             try {
                 if (!ApplicationInitializer.initApplication(args)) {
                     System.out.println("Инициализация пограммы прошла с ошибкой!");
@@ -67,7 +89,13 @@ public class MainClass {
 
                     ProgramMesssages.putProgramParamsToLog();
                     ImportProcessor importProcessor=importProcessorInstance();
-                    importProcessor.loadFields();
+
+                    importProcessor.loadFields( ProgramParameters.getParameterValue("tablename"),
+                                                ProgramParameters.getParameterValue("filename"),
+                                                Boolean.parseBoolean(ProgramParameters.getParameterValue("importtable")),
+                                                Integer.parseInt(ProgramParameters.getParameterValue("fieldscount"))
+                    );
+
                     importProcessor.loadRecordsToDataBase();
 
                     Logger.putLineToLog(ApplicationGlobals.getAPPLOGName(), "Импортировано:" + importProcessor.getRowCount() + " записей. \n Импорт завершен успешно.", true);
@@ -83,32 +111,34 @@ public class MainClass {
                 e.printStackTrace();
             }
             catch (Exception e) {
-                Logger.putLineToLog(ApplicationGlobals.getERRORLOGName(), "Импорт завершен с ошибками.\nСообщение об ошибке:\" + e", true);
+                Logger.putLineToLog(ApplicationGlobals.getERRORLOGName(), "Импорт завершен с ошибками.\nСообщение об ошибке:" + e.toString(), true);
             }
+//            catch (IOException e){
+//                e.printStackTrace();
+//                System.out.println("Ошибка инициализации системы логгирования. Аварийное завершение работы.");
+//            }
             finally {
                 try {
                     DataBaseConnector.close();
+                    Logger.closeAll();
                 } catch (SQLException e) {
                     System.out.println("Ошибка закрытия соединения с БД. Сообщение об ошибке:" + e.toString());
                 }
+                catch (IOException e){
+                    System.out.println("Ошибка закрытия файлов журналов. Сообщение об ошибке:"+e.toString());
+                }
             }
-        }
-        catch (IOException e){
-            e.printStackTrace();
-            System.out.println("Ошибка инициализации системы логгирования. Аварийное завершение работы.");
-        }
 }
 
 private static ImportProcessor importProcessorInstance(){
     String filename = ProgramParameters.getParameterValue("filename");
     String tablename = ProgramParameters.getParameterValue("tablename");
-    int fieldscount = Integer.valueOf(ProgramParameters.getParameterValue("fieldscount"));
-    Boolean storealiases = Boolean.valueOf(ProgramParameters.getParameterValue("fieldscount"));
-    Boolean createtable = Boolean.valueOf(ProgramParameters.getParameterValue("createtable"));
-    Boolean importtable = Boolean.valueOf(ProgramParameters.getParameterValue("importtable"));
-    Boolean tabledropnonprompt = Boolean.valueOf(ProgramParameters.getParameterValue("tabledropnonprompt"));
-    ImportProcessor importProcessor= new ImportProcessor(filename, tablename, fieldscount, storealiases, createtable, importtable, tabledropnonprompt);
-    return importProcessor;
+    int fieldscount = Integer.parseInt(ProgramParameters.getParameterValue("fieldscount"));
+    boolean storealiases = Boolean.parseBoolean(ProgramParameters.getParameterValue("fieldscount"));
+    boolean createtable = Boolean.parseBoolean(ProgramParameters.getParameterValue("createtable"));
+    boolean importtable = Boolean.parseBoolean(ProgramParameters.getParameterValue("importtable"));
+    boolean tabledropnonprompt = Boolean.parseBoolean(ProgramParameters.getParameterValue("tabledropnonprompt"));
+    return new ImportProcessor(filename, tablename, fieldscount, storealiases, createtable, importtable, tabledropnonprompt);
 }
 
 }

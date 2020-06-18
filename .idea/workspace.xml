@@ -7,22 +7,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be856d62-7789-4249-8585-6b0cad7cb513" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/history.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tableslib/Header.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tableslib/ImportTableException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/tableslib/ImportProcessorTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/history.txt" beforeDir="false" afterPath="$PROJECT_DIR$/history.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/environment/ApplicationInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/environment/ApplicationInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/environment/ProgramMesssages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/environment/ProgramMesssages.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/loglib/ErrorsClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/loglib/ErrorsClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/DetectTypeClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tableslib/DetectTypeClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/FieldsCollection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/excelengine/IParserCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/excelengine/IParserCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/DetectTypeClass.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/ImportProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tableslib/ImportProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/TableClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tableslib/TableClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/MainClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MainClass.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/loglib/ErrorsClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/loglib/ErrorsClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/loglib/MessagesClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/loglib/MessagesClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tableslib/AliasFiller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/AliasFiller.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor$DataImportCallBack.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor$DataImportCallBack.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor$FieldsCallback.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor$FieldsCallback.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tableslib/RecordInsertQueryFiller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/RecordInsertQueryFiller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tableslib/TableClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/TableClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/DateFormatError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/DateFormatError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/EIllegalFieldsSet.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/EIllegalFieldsSet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeCorrectionError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeCorrectionError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/LineReadError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/LineReadError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/NullStringLineError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/NullStringLineError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/TableCreationError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/TableCreationError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zmm_applog.log" beforeDir="false" afterPath="$PROJECT_DIR$/zmm_applog.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zmm_errorlog.log" beforeDir="false" afterPath="$PROJECT_DIR$/zmm_errorlog.log" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,6 +48,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="JUnit5 Test Class" />
+        <option value="JUnit4 Test Class" />
         <option value="Class" />
       </list>
     </option>
@@ -58,17 +74,27 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Libraries/jdbcprocessor" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Libraries/converters" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="tableslib" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="fileengine" />
       <recent name="typeslib" />
@@ -87,11 +113,11 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.MainClass">
+  <component name="RunManager" selected="JUnit.ImportProcessorTest.testValidateFieldsAndAliases_Check">
     <configuration name="MainClass" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainClass" />
       <module name="tmc_file_importer" />
-      <option name="PROGRAM_PARAMETERS" value="tablename=zmm filename=c://files//tmc//xls//zmm_short.xlsx fieldscount=287 storealiases=true  createtable=true  applog=zmm_applog.log   errorlog=zmm_errorlog.log  importtable=false tabledropnonprompt=true fieldsfile=zmm.ini" />
+      <option name="PROGRAM_PARAMETERS" value="tablename=zmm filename=c://files//tmc//xls//zmm_short.xlsx fieldscount=287 storealiases=false  createtable=true  applog=zmm_applog.log   errorlog=zmm_errorlog.log  importtable=true tabledropnonprompt=true fieldsfile=zmm.ini" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -135,6 +161,23 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImportProcessorTest.testValidateFieldsAndAliases_Check" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tmc_file_importer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tableslib.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tableslib" />
+      <option name="MAIN_CLASS_NAME" value="tableslib.ImportProcessorTest" />
+      <option name="METHOD_NAME" value="testValidateFieldsAndAliases_Check" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -185,9 +228,11 @@
       <item itemvalue="Application.XLS2CSVmra" />
       <item itemvalue="Application.XLSX2CSV" />
       <item itemvalue="Maven.tmc_file_importer [package]" />
+      <item itemvalue="JUnit.ImportProcessorTest.testValidateFieldsAndAliases_Check" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ImportProcessorTest.testValidateFieldsAndAliases_Check" />
         <item itemvalue="Application.MainClass" />
         <item itemvalue="Application.XLSX2CSV" />
         <item itemvalue="Application.XLS2CSVmra" />
@@ -220,7 +265,7 @@
       <workItem from="1591798081011" duration="1023000" />
       <workItem from="1591799244288" duration="21689000" />
       <workItem from="1592220204542" duration="2573000" />
-      <workItem from="1592223387332" duration="24549000" />
+      <workItem from="1592223387332" duration="50702000" />
     </task>
     <servers />
   </component>
@@ -256,22 +301,13 @@
           <line>134</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/tableslib/ImportProcessor.java</url>
-          <line>94</line>
-          <option name="timeStamp" value="142" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/tableslib/ImportProcessor.java</url>
-          <line>235</line>
-          <option name="timeStamp" value="147" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="field.getFieldType()" language="JAVA" />
         <watch expression="entry.getValue().getFieldType()" language="JAVA" />
+        <watch expression="fields" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>
