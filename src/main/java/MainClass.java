@@ -64,6 +64,7 @@ fieldsfile - путь к файлу предопределенных значе�
 
 import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
 import environment.*;
+import tableslib.Header;
 import tableslib.ImportProcessor;
 import com.ppsdevelopment.programparameters.ProgramParameters;
 
@@ -90,16 +91,17 @@ public class MainClass {
                     ProgramMesssages.putProgramParamsToLog();
                     ImportProcessor importProcessor=importProcessorInstance();
 
-                    importProcessor.loadFields( ProgramParameters.getParameterValue("tablename"),
-                                                ProgramParameters.getParameterValue("filename"),
-                                                Boolean.parseBoolean(ProgramParameters.getParameterValue("importtable")),
-                                                Integer.parseInt(ProgramParameters.getParameterValue("fieldscount"))
-                    );
+                    Header h=new Header();
+//                    h.loadFields( ProgramParameters.getParameterValue("tablename"),
+//                                                ProgramParameters.getParameterValue("filename"),
+//                                                Boolean.parseBoolean(ProgramParameters.getParameterValue("importtable")),
+//                                                Integer.parseInt(ProgramParameters.getParameterValue("fieldscount"))
+//                    );
 
-                    importProcessor.loadRecordsToDataBase();
+                    importProcessor.loadRecordsToDataBase(null);
 
-                    Logger.putLineToLog(ApplicationGlobals.getAPPLOGName(), "Импортировано:" + importProcessor.getRowCount() + " записей. \n Импорт завершен успешно.", true);
-                    Logger.putLineToLog(ApplicationGlobals.getAPPLOGName(), "Время завершения:" + new Date().toString(), true);
+//                    Logger.putLineToLog(ApplicationGlobals.getAPPLOGName(), "Импортировано:" + importProcessor.getRowCount() + " записей. \n Импорт завершен успешно.", true);
+//                    Logger.putLineToLog(ApplicationGlobals.getAPPLOGName(), "Время завершения:" + new Date().toString(), true);
                 }
             }
             catch (SQLException e) {
