@@ -21,6 +21,7 @@ fieldscount-  количество полей таблицы
 
 storealiases- логические значение true/false. Если true, то информация о полях таблицы сохраняется в таблице aliases.
 
+Не нужен
 createtable-  логические значение true/false. Если true, то таблица в БД создается. При этом, если tableoverwrite=true, и таблица уже существует,
               то таблица удаляется и создается заново, на основании данных о полях таблицы с именем заданным параметром tablename, хранащихся в таблице aliases.
               Если таблица существует, и tableoverwrite=false, то таблица очищается от записей, а не создается заново.
@@ -30,7 +31,8 @@ createtable-  логические значение true/false. Если true, �
 applog-       имя файла журнала приложения.
 errorlog-     имя файла журнала ошибок приложения.
 importtable-  логические значение true/false. Если true, то при создании таблицы БД, имя таблицы будет [tablename]+"_import".
-tabledropnonprompt -
+tableoverwrite - если true, то, если создаваемая таблица уже существует в БД, то она будет перезаписана. Если false, то будет выдана ошибка,
+              и таблицу из БД следует удалить вручную. Это сделано для того, чтобы исключить случайную перезапись существующей таблицы.
 fieldsfile - путь к файлу предопределенных значений типов полей
  */
 // import table
@@ -55,7 +57,7 @@ fieldsfile - путь к файлу предопределенных значе�
  *  4. При загрузке таблицы изменений, основной таблицы не существует.
  *
  * Если таблица существует и требуется ее перезапись, то, для того, чтобы перезапись прошла без возникновения
- * исключения, нужно задать параметр "tabledropnonprompt=true".
+ * исключения, нужно задать параметр "tableoverwrite=true".
  *  Загружаемые данные берутся из файла с именем, заданным параметром "filename"
  *  При анализе таблицы XLSX, производится чтение всей таблицы и определение типов полей.
  *  Чтобы вручную задать тип поля, следует указать wимя_поля=тип_поля в файле, указанном в параметре fieldsfile.
@@ -75,8 +77,8 @@ import com.ppsdevelopment.loglib.Logger;
 import environment.ProgramMesssages;
 
 /**
- * tablename=zmm filename=c://files//tmc//xls//zmm_short.xlsx fieldscount=287 storealiases=true  createtable=true  applog=zmm_applog.log   errorlog=zmm_errorlog.log  importtable=false tabledropnonprompt=true fieldsfile=zmm.ini
- * tablename=zmm filename=c://files//tmc//xls//zmm_short.xlsx fieldscount=287 storealiases=false  createtable=true  applog=zmm_applog.log   errorlog=zmm_errorlog.log  importtable=true tabledropnonprompt=true fieldsfile=zmm.ini
+ * tablename=zmm filename=c://files//tmc//xls//zmm_short.xlsx fieldscount=287 storealiases=true  createtable=true  applog=zmm_applog.log   errorlog=zmm_errorlog.log  importtable=false tableoverwrite=true fieldsfile=zmm.ini
+ * tablename=zmm filename=c://files//tmc//xls//zmm_short.xlsx fieldscount=287 storealiases=false  createtable=true  applog=zmm_applog.log   errorlog=zmm_errorlog.log  importtable=true tableoverwrite=true fieldsfile=zmm.ini
  */
 public class MainClass {
 
@@ -139,8 +141,8 @@ private static ImportProcessor importProcessorInstance(){
     boolean storealiases = Boolean.parseBoolean(ProgramParameters.getParameterValue("fieldscount"));
     boolean createtable = Boolean.parseBoolean(ProgramParameters.getParameterValue("createtable"));
     boolean importtable = Boolean.parseBoolean(ProgramParameters.getParameterValue("importtable"));
-    boolean tabledropnonprompt = Boolean.parseBoolean(ProgramParameters.getParameterValue("tabledropnonprompt"));
-    return new ImportProcessor(filename, tablename, fieldscount, storealiases, createtable, importtable, tabledropnonprompt);
+    boolean tableoverwrite = Boolean.parseBoolean(ProgramParameters.getParameterValue("tabledropnonprompt"));
+    return new ImportProcessor(filename, tablename, fieldscount, storealiases, createtable, importtable, tableoverwrite);
 }
 
 }

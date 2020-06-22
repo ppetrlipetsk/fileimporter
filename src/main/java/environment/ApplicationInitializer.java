@@ -110,7 +110,7 @@ public class ApplicationInitializer {
         ProgramParameters.setParameterProperties("storealiases","false",false);
         ProgramParameters.setParameterProperties("createtable","false",false);
         ProgramParameters.setParameterProperties("importtable","",true);
-        ProgramParameters.setParameterProperties("tabledropnonprompt","false",false);
+        ProgramParameters.setParameterProperties("tableoverwrite","false",false);
         ProgramParameters.setParameterProperties("fieldsfile","",false);
         ProgramParameters.setParameterProperties(ApplicationGlobals.getAPPLOGName(),"",true);
         ProgramParameters.setParameterProperties(ApplicationGlobals.getERRORLOGName(),"",true);

@@ -35,7 +35,7 @@ public class Header {
      *  4. При загрузке таблицы изменений, основной таблицы не существует.
      *
      */
-    public void loadFields(String tableName, String fileName, boolean importTable, boolean tableDropNonPrompt, boolean createDBTable, boolean storeAliases, int fieldsCount) throws OpenXML4JException, SAXException, IOException, SQLException,  ImportTableException {
+    public void loadFields(String tableName, String fileName, boolean importTable, boolean tableOverwrite,  boolean storeAliases, int fieldsCount) throws Exception {
         String dbTableName= importTable ? tableName+"_import" : tableName;
         FieldsCollection fieldsSource=null;
         FieldsCollection fieldsDestination=new FieldsCollection(16, 0.75f,false);
@@ -50,7 +50,7 @@ public class Header {
         correctFieldTypes(fieldsDestination);
         if (importTable)
             validateFieldsAndAliases(fieldsSource,fieldsDestination);
-        createTable(fieldsDestination,tableName,dbTableName,tableDropNonPrompt, createDBTable,storeAliases,importTable);
+        createTable(fieldsDestination,tableName,dbTableName,tableOverwrite,storeAliases,importTable);
     }
 
     // Загружает поля из БД
@@ -112,39 +112,47 @@ public class Header {
         return tableId;
     }
 
-    private void createTable(FieldsCollection fields, String tableName, String dbTableName, boolean tableDropNonPrompt, boolean createDBTable, boolean storeAliases, boolean importTable) throws SQLException {
+    private void createTable(FieldsCollection fields, String tableName, String dbTableName, boolean tableReCreate,  boolean storeAliases, boolean importTable) throws Exception {
         try {
             boolean tableExists = isTableExists(dbTableName);
+            cleanTable(dbTableName, tableReCreate, tableExists);
+            createDBTable(fields, dbTableName, tableReCreate, importTable, tableExists);
+            createAliases(fields, tableName, storeAliases);
+        }
+        catch(SQLException | ConnectException | FieldTypeError e){
+            Logger.putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка создания таблицы " + e.getMessage(), true);
+            throw new Exception(e.getMessage());
+        }
+    }
 
-            if (!(tableExists && !tableDropNonPrompt)) {
+    private void createAliases(FieldsCollection fields, String tableName, boolean storeAliases) throws SQLException, FieldTypeError {
+        if (storeAliases) {
+            long tableId = getTableId(tableName);
+            if ((tableId==-1))
+                tableId= TableClass.insertTable(tableName);
+            TableClass.insertAliases(fields.getFields(), "aliases", tableId);
+        }
+    }
 
-                if (createDBTable || !tableExists) {
+    private void createDBTable(FieldsCollection fields, String dbTableName, boolean tableReCreate, boolean importTable, boolean tableExists) throws SQLException, ConnectException {
+        if (!tableExists||tableReCreate) {
+            TableClass.createTable(fields.getFields(), dbTableName);
+            if (!importTable) TableClass.insertDeletedField(dbTableName);
+        }
+//         else
+//            TableClass.deleteFromTable(dbTableName);
+    }
 
+    private void cleanTable(String dbTableName, boolean tableReCreate, boolean tableExists) throws Exception {
+        if (tableExists)
+            if (tableReCreate)  //Если таблица существует и ее можно пересоздавать
+                {
                     TableClass.deleteAliases(dbTableName);
                     TableClass.deleteTableAlias(dbTableName);
-
-                    if (tableExists) TableClass.dropTable(dbTableName);
-                    tableslib.TableClass.createTable(fields.getFields(), dbTableName);
-                    if (!importTable) tableslib.TableClass.insertDeletedField(dbTableName);
-
-                } else
-                    TableClass.deleteFromTable(dbTableName);
-
-                if (storeAliases) {
-                    long tableId = getTableId(tableName);
-                    if ((tableId==-1)&&(storeAliases))
-                        tableId=tableslib.TableClass.insertTable(tableName);
-
-                    tableslib.TableClass.insertAliases(fields.getFields(), "aliases", tableId);
+                    TableClass.dropTable(dbTableName);
                 }
-            }
-            else throw new RuntimeException("Таблица "+dbTableName+" уже существует. Недостаточно прав на ее уничтожение и создание новой.");
-
-        } catch(SQLException | ConnectException | FieldTypeError e){
-            e.printStackTrace();
-            Logger.putLineToLogs(new String[]{"AppLog", "ErrorLog"}, "Ошибка создания таблицы " + e.getMessage(), true);
-            throw new SQLException(e.getMessage());
-        }
+            else
+                throw new Exception("Таблица "+dbTableName+" уже существует. Недостаточно прав на ее уничтожение и создание новой.");
     }
 
     private void detectFieldsTypes(LinkedList<String> list,FieldsCollection fields) throws FieldTypeCorrectionError {
