@@ -7,7 +7,7 @@
     <groupId>tmc_file_importer</groupId>
     <artifactId>tmc_file_importer</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
     <name>tmc_file_importer</name>
 
     <properties>
@@ -124,7 +124,7 @@
         <dependency>
             <groupId>com.ppsdevelopment</groupId>
             <artifactId>com.ppsdevelopment.tmctypeslib</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.ppsdevelopment</groupId>

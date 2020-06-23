@@ -2,8 +2,11 @@ package tableslib.header;
 
 import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
 import com.ppsdevelopment.jdbcprocessor.DataBaseProcessor;
+import com.ppsdevelopment.programparameters.ProgramParameters;
+import com.ppsdevelopment.tmcprocessor.tmctypeslib.FieldsDefaults;
 import tableslib.Header;
 
+import java.io.IOException;
 import java.net.ConnectException;
 import java.sql.SQLException;
 
@@ -104,6 +107,17 @@ public class HeaderCaller {
         execLoadFields(TABLENAME,fileName,importTable,tableOverwrite,storeAliases,fieldsCount);
     }
 
+
+    public void loadFieldsDefaults() throws Exception {
+        final String fileName = "C:\\files\\tmc\\xls\\example1.xlsx";
+        final int fieldsCount = fields.length;
+        final boolean storeAliases = true;
+        final boolean importTable = false;
+        final boolean tableOverwrite = true;
+        loadFieldsDefaultTypes();
+        execLoadFields(TABLENAME,fileName,importTable,tableOverwrite,storeAliases,fieldsCount);
+    }
+
     public void createDBTable(String tableName) {
         String query="CREATE TABLE [dbo].["+tableName+"](\n" +
                 "\t[id] [int] IDENTITY(1,1) NOT NULL,\n" +
@@ -134,7 +148,16 @@ public class HeaderCaller {
         } catch (SQLException | ConnectException e) {
             e.printStackTrace();
         }
+    }
 
+    private static void  loadFieldsDefaultTypes() throws IOException, SQLException, ClassNotFoundException {
+            String fileName = "example1.ini";
+            String tableName = "example1";
+            try {
+                FieldsDefaults.loadDefaultFields(fileName, tableName);
+            } catch (IOException e) {
+                throw new IOException("Ошибка загрузки информации о предопределенных типах полей. Сообщение об ошибке:"+e.toString());
+            }
     }
 
 }

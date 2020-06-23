@@ -7,10 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be856d62-7789-4249-8585-6b0cad7cb513" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderCaller.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTestHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example1.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/history.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/HeaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderCaller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderCaller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zmm.ini" beforeDir="false" afterPath="$PROJECT_DIR$/zmm.ini" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +55,7 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="extract.method.default.visibility" value="public" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Libraries/converters" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Libraries/tmctypeslib" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -65,6 +68,9 @@
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
       <recent name="tableslib" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\96-paliy\IdeaProjects\tmc_processor\tmc_file_importer" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -118,7 +124,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HeaderTest.loadFieldsIllegalFieldCount" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HeaderTest.loadFieldsDefaults" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="tmc_file_importer" />
       <extension name="coverage">
         <pattern>
@@ -128,7 +134,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="tableslib.header" />
       <option name="MAIN_CLASS_NAME" value="tableslib.header.HeaderTest" />
-      <option name="METHOD_NAME" value="loadFieldsIllegalFieldCount" />
+      <option name="METHOD_NAME" value="loadFieldsDefaults" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -231,17 +237,17 @@
       <item itemvalue="Maven.tmc_file_importer [package]" />
       <item itemvalue="JUnit.HeaderTest.loadFieldsImportTable" />
       <item itemvalue="JUnit.HeaderTest" />
-      <item itemvalue="JUnit.HeaderTest.loadFieldsIllegalFieldCount" />
       <item itemvalue="JUnit.HeaderTest.loadFieldsIllegalFieldCountLessThanNeed" />
       <item itemvalue="JUnit.HeaderTest.loadFieldsImportTableIllegalAliases" />
+      <item itemvalue="JUnit.HeaderTest.loadFieldsDefaults" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.HeaderTest" />
         <item itemvalue="JUnit.HeaderTest.loadFieldsImportTableIllegalAliases" />
         <item itemvalue="JUnit.HeaderTest.loadFieldsImportTable" />
+        <item itemvalue="JUnit.HeaderTest.loadFieldsDefaults" />
         <item itemvalue="JUnit.HeaderTest.loadFieldsIllegalFieldCountLessThanNeed" />
-        <item itemvalue="JUnit.HeaderTest.loadFieldsIllegalFieldCount" />
       </list>
     </recent_temporary>
   </component>
@@ -270,7 +276,7 @@
       <workItem from="1591798081011" duration="1023000" />
       <workItem from="1591799244288" duration="21689000" />
       <workItem from="1592220204542" duration="2573000" />
-      <workItem from="1592223387332" duration="94777000" />
+      <workItem from="1592223387332" duration="100241000" />
     </task>
     <servers />
   </component>
@@ -313,8 +319,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTest.java</url>
-          <line>247</line>
-          <option name="timeStamp" value="238" />
+          <line>281</line>
+          <option name="timeStamp" value="243" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

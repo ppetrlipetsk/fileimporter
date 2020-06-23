@@ -2,20 +2,18 @@ package tableslib.header;
 
 import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
 import com.ppsdevelopment.tmcprocessor.tmctypeslib.FieldType;
+import com.ppsdevelopment.tmcprocessor.tmctypeslib.FieldsDefaults;
 import environment.ApplicationGlobals;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
+ * Version 1.0.1
  */
+
 class HeaderTest {
-//    private final static String[] FIELDS ={"material","kratkii_tekst_materiala","potrebnost_pen","pozitsiya_potrebnosti_pen","obem_potrebnosti","data_poslednego_izmeneniya_pozitsii_potr_","pozitsiya_potrebnosti_pen0","kratkii_tekst_materiala0"};
-//    private static HashMap<String, FieldType> FIELDSSET=new HashMap<>();
 
     private static void dataBaseConnection() throws Exception {
         String instanceName = "localhost\\MSSQLSERVER";
@@ -47,6 +45,9 @@ class HeaderTest {
     // - создание записи таблицы в таблице tables
     // - создание псевдонимов (набор полей, их имена, количество, соответствие типов заданномй коллекции)
     //- соответствие имен полей таблицы БД, заданному набору эталонной коллекции.
+
+    //TODO Сделать проверку работы импорта предопределенных полей
+
     @Test
     void loadFields() {
         boolean actual;
@@ -70,9 +71,10 @@ class HeaderTest {
         System.out.println("LoadFields1:"+(actual?"OK":"FAILED"));
         assertTrue(actual);
     }
-// TODO Сделать проверку, если таблица существует, а tableoverwrite=false
+
 
     // Задаем неверное имя файла
+    // Expected: Исключение, с сообщением о неверном имени файла
     @Test
     void loadFieldsBadFileName() {
         // Задаем неправильное имя файла. Должно быть исключение и выход.
@@ -99,7 +101,8 @@ class HeaderTest {
     }
 
 
-    // Неверное количество полей. Больше, чем нужно. В этом случае должны создаться дополнительные поля с именами fields...
+    // Неверное количество полей. Больше, чем нужно.
+    // Expected: В этом случае должны создаться дополнительные поля с именами fields...
     @Test
     void loadFieldsIllegalFieldCount() {
         System.out.println("Проверка вызова при количестве полей большем, чем нужно.");
@@ -128,6 +131,7 @@ class HeaderTest {
 
 
     // Задаем меньшее количество полей, меньше, чем есть в таблице XSLX
+    // Должны получить таблицу с набором полей, меньшим, чем в эталонном наборе данных (коллекции)
     @Test
      void loadFieldsIllegalFieldCountLessThanNeed() {
         System.out.println("Проверка: параметр, задающий количество полей в таблице XLSX, задан меньше, чем в эталонной коллекции");
@@ -156,6 +160,7 @@ class HeaderTest {
 
 
     // Создаем таблицу, не сохраняем псевдонимы
+    // Должны получить созданную теблицу, без псевдонимов и записи в таблице tables.
     @Test
      void loadFieldsNoStoreAliases() {
         System.out.println("Проверка: параметр, storeAliases=false");
@@ -184,7 +189,7 @@ class HeaderTest {
 
 
     // Проверим, поведение, если таблица БД существует, а параметр TableOverwrite=false
-    //Должны получить сообщение о нехватке прав на удаление существующей таблицы.
+    // Должны получить сообщение о нехватке прав на удаление существующей таблицы.
     @Test
      void loadFieldsNoTableOverwrite() {
         System.out.println("Проверка: параметр, TableOverwrite=false:");
@@ -242,7 +247,7 @@ class HeaderTest {
     }
 
     // Проверим, поведение, если ImportTable=true
-    //Должны получить пересозданную таблицу
+    // Должны получить таблицу импорта
     @Test
      void loadFieldsImportTable() {
         System.out.println("Проверка: параметр, ImportTable=true:");
@@ -294,6 +299,33 @@ class HeaderTest {
         assertTrue(actual);
     }
 
+    //Проверяем работу импорта предопределенных полей.
+    //Expect: Поле potrebnost_pen должно быть STRINGTYPE.
+    @Test
+    void loadFieldsDefaults() {
+        boolean actual;
+        try {
+            HeaderTestHelper h=new HeaderTestHelper();
+            HeaderCaller headerCaller=new HeaderCaller(TABLENAME,h.getFIELDS());
+            h.dropTableIfExists(TABLENAME);
+            headerCaller.loadFieldsDefaults();
+            FieldType t=h.getFIELDSSET().get("potrebnost_pen");
+            h.getFIELDSSET().put("potrebnost_pen",FieldType.STRINGTYPE);
+            actual= h.checkTableCreate(TABLENAME)
+                    && h.checkTableRecordCreated(TABLENAME)
+                    && h.checkAliasesCount(TABLENAME)
+                    && h.checkTableFieldsCount(TABLENAME)
+                    && h.checkAliases(TABLENAME);
+            h.dropTableIfExists(TABLENAME);
+            h.getFIELDSSET().put("potrebnost_pen",FieldType.INTTYPE);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            actual=false;
+        }
+        FieldsDefaults.getFields().remove("potrebnost_pen");
+        System.out.println("loadFieldsDefaults:"+(actual?"OK":"FAILED"));
+        assertTrue(actual);
+    }
 
 
     //TODO Проверки: 1. таблица создана. 2. соответствуют имена полей таблицы; 3. соответствует количество полей таблицы; 5. созданы псевдонимы; 6. создана запись в таблице "tables".
