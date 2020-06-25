@@ -2,7 +2,7 @@ package tableslib.header;
 
 import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
 import com.ppsdevelopment.jdbcprocessor.DataBaseProcessor;
-import com.ppsdevelopment.programparameters.ProgramParameters;
+import com.ppsdevelopment.tmcprocessor.tmctypeslib.FieldsCollection;
 import com.ppsdevelopment.tmcprocessor.tmctypeslib.FieldsDefaults;
 import tableslib.Header;
 
@@ -19,13 +19,17 @@ public class HeaderCaller {
         this.fields =fields;
     }
 
-    public void loadFieldsStandartCall() throws Exception {
+    public HeaderCaller(String TABLENAME) {
+        this.TABLENAME = TABLENAME;
+    }
+
+    public FieldsCollection loadFieldsStandartCall() throws Exception {
         final String fileName = "C:\\files\\tmc\\xls\\example1.xlsx";
         final int fieldsCount = fields.length;
         final boolean storeAliases = true;
         final boolean importTable = false;
         final boolean tableOverwrite = true;
-        execLoadFields(TABLENAME,fileName,importTable,tableOverwrite,storeAliases,fieldsCount);
+        return execLoadFields(TABLENAME,fileName,importTable,tableOverwrite,storeAliases,fieldsCount);
     }
 
     public void loadFieldsIllegalFileName() throws Exception {
@@ -83,9 +87,9 @@ public class HeaderCaller {
     }
 
 
-    private void execLoadFields(String tableName, String fileName, boolean importTable, boolean tableOverwrite, boolean storeAliases, int fieldsCount) throws Exception {
+    private FieldsCollection execLoadFields(String tableName, String fileName, boolean importTable, boolean tableOverwrite, boolean storeAliases, int fieldsCount) throws Exception {
         Header h=new Header();
-        h.loadFields(tableName,fileName,importTable,tableOverwrite,storeAliases,fieldsCount);
+        return h.loadFields(tableName,fileName,importTable,tableOverwrite,storeAliases,fieldsCount);
     }
 
     public boolean loadFieldsImportTable() throws Exception {

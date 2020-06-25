@@ -1,16 +1,13 @@
 package tableslib;
 
-import com.ppsdevelopment.converters.Transliterate;
 import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
 import com.ppsdevelopment.jdbcprocessor.DataBaseProcessor;
-import com.ppsdevelopment.loglib.Logger;
 import com.ppsdevelopment.tmcprocessor.tmctypeslib.*;
 import environment.QueryRepository;
 import excelengine.ExcelReader;
 import excelengine.IParserCallBack;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.xml.sax.SAXException;
-import throwlib.FieldTypeCorrectionError;
 import throwlib.FieldTypeError;
 import java.io.IOException;
 import java.net.ConnectException;
@@ -19,35 +16,16 @@ import java.text.ParseException;
 import java.util.*;
 
 public class ImportProcessor {
-    //private FieldsCollection fields=new FieldsCollection(16, 0.75f,false);
-
-    private final boolean storeAliases;
-    private final boolean createDBTable;
-    private final String fileName;
-    private final String tableName;
-    private final int fieldsCount;
     private int rowCount;
-    private boolean importTable;
-    private String dbTableName; //имя таблицы БД, в которую будут записываться строки данных. Строится на основе tableName и если importTable=true, то добавляется суффикс "_import"
-    private boolean tableDropNonPrompt;
+    //private String dbTableName; //имя таблицы БД, в которую будут записываться строки данных. Строится на основе tableName и если importTable=true, то добавляется суффикс "_import"
 
-
-    public ImportProcessor(String fileName, String tableName, int fieldsCount,   boolean storeAliases, boolean createDBTable, boolean importTable, boolean tableDropNonPrompt) {
-        this.storeAliases = storeAliases;
-        this.createDBTable = createDBTable;
-        this.fileName=fileName;
-        this.tableName=tableName;
-        this.fieldsCount=fieldsCount;
+    public ImportProcessor() {
         this.rowCount=0;
-        this.importTable=importTable;
-        this.tableDropNonPrompt=tableDropNonPrompt;
-        dbTableName= this.importTable ? tableName+"_import" : tableName;
     }
 
-    public void loadRecordsToDataBase(FieldsCollection fields) {
-        //DataImportCallBack fcb = new DataImportCallBack(fieldsCount);
-        DataImportCallBack fcb = new DataImportCallBack(fields);
-        ExcelReader ereader = new ExcelReader(fileName, fcb, fieldsCount);
+    public void loadRecordsToDataBase(FieldsCollection fields,String fileName,String dbTableName) {
+        DataImportCallBack fcb = new DataImportCallBack(fields,dbTableName);
+        ExcelReader ereader = new ExcelReader(fileName, fcb, fields.size());
         try {
             ereader.read();
         } catch (IOException | SAXException | OpenXML4JException e) {
@@ -56,22 +34,13 @@ public class ImportProcessor {
         ereader.close();
     }
 
-
-
-//    private FieldType getFieldTypeByStr(String s){
-//        return DetectType.getFieldType(s);
-//    }
-
-
-
-
-    private void lineImporter(LinkedList<String> list, long currentRow, FieldsCollection fields) {
+    private void lineImporter(LinkedList<String> list, long currentRow, FieldsCollection fields, String dbTableName) {
         if (currentRow>0){
-            importRow(list,fields);
+            importRow(list,fields, dbTableName);
         }
     }
 
-    private void importRow(LinkedList<String> list, FieldsCollection fields) {
+    private void importRow(LinkedList<String> list, FieldsCollection fields, String dbTableName) {
         try {
             insertRecord(fields, dbTableName, list);
         } catch (SQLException e) {
@@ -97,11 +66,11 @@ public class ImportProcessor {
 
     }
 
-
     private class DataImportCallBack implements IParserCallBack {
         private long currentRow;
         //private int fieldsCount;
         FieldsCollection fields;
+        String dbTableName;
 
         @Override
         public void call(LinkedList<String> list) {
@@ -110,28 +79,19 @@ public class ImportProcessor {
             if (currentRow>0)
             System.out.println("Import row №"+currentRow);
 
-            lineImporter(list, currentRow, fields);
+            lineImporter(list, currentRow, fields,dbTableName);
 
             if (currentRow>0)
                 rowCount++;
         }
 
-//        private DataImportCallBack(int fieldsCount) {
-////            this.fieldsCount=fieldsCount;
-//            this.currentRow=-1;
-//        }
-//
-//    }
-
-    private DataImportCallBack(FieldsCollection fields) {
+    private DataImportCallBack(FieldsCollection fields, String dbTableName) {
         this.currentRow=-1;
         this.fields=fields;
+        this.dbTableName=dbTableName;
     }
 
 }
-
-    // for tests
-
 
 }
 

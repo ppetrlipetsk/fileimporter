@@ -35,10 +35,10 @@ public class Header {
      *  4. При загрузке таблицы изменений, основной таблицы не существует.
      *
      */
-    public void loadFields(String tableName, String fileName, boolean importTable, boolean tableOverwrite,  boolean storeAliases, int fieldsCount) throws Exception {
+    public FieldsCollection loadFields(String tableName, String fileName, boolean importTable, boolean tableOverwrite,  boolean storeAliases, int fieldsCount) throws Exception {
         String dbTableName= importTable ? tableName+"_import" : tableName;
         FieldsCollection fieldsSource=null;
-        FieldsCollection fieldsDestination=new FieldsCollection(16, 0.75f,false);
+        FieldsCollection fieldsDestination=new FieldsCollection(16, 0.75f,false); // Найденные поля
         if (importTable) { //Если это импорт таблицы изменений, в уже имеющуюся таблицу, с определенным набором полей, то загружаем сущействующий набор полей
             fieldsSource=loadFieldsFromDB(tableName);
             if ((fieldsSource!=null)&&(fieldsSource.size()==0)) throw new ImportTableException("Таблица изменений должна загружаться после основной таблицы. Основная таблица не найдена."); //Если не нашли информацию о полях основной таблицы-исключение
@@ -51,6 +51,7 @@ public class Header {
         if (importTable)
             validateFieldsAndAliases(fieldsSource,fieldsDestination);
         createTable(fieldsDestination,tableName,dbTableName,tableOverwrite,storeAliases,importTable);
+        return fieldsDestination;
     }
 
     // Загружает поля из БД
@@ -112,11 +113,11 @@ public class Header {
         return tableId;
     }
 
-    private void createTable(FieldsCollection fields, String tableName, String dbTableName, boolean tableReCreate,  boolean storeAliases, boolean importTable) throws Exception {
+    private void createTable(FieldsCollection fields, String tableName, String dbTableName, boolean tableOverwrite,  boolean storeAliases, boolean importTable) throws Exception {
         try {
             boolean tableExists = isTableExists(dbTableName);
-            cleanTable(dbTableName, tableReCreate, tableExists);
-            createDBTable(fields, dbTableName, tableReCreate, importTable, tableExists);
+            cleanTable(dbTableName, tableOverwrite, tableExists);
+            createDBTable(fields, dbTableName, tableOverwrite, importTable, tableExists);
             createAliases(fields, tableName, storeAliases);
         }
         catch(SQLException | ConnectException | FieldTypeError e){

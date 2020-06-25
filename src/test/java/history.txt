@@ -2,3 +2,6 @@ Version 1.0.2-SNAPSHOT
 - добавлен метод тестирования работы импорта предопределенных полей
 Version 1.0.3-SNAPSHOT
 - исправлен баг в работе loadFieldsDefaults()
+Version 1.0.4-SNAPSHOT
+- разработан тест для класса ImportPrcessor
+- класс HeaderTest перенесен в корневой package

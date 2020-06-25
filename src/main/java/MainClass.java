@@ -65,6 +65,7 @@ fieldsfile - путь к файлу предопределенных значе�
  */
 
 import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
+import com.ppsdevelopment.tmcprocessor.tmctypeslib.FieldsCollection;
 import environment.*;
 import tableslib.Header;
 import tableslib.ImportProcessor;
@@ -89,18 +90,29 @@ public class MainClass {
                     ProgramMesssages.showAppParams();
                 } else {
                     Logger.putLineToLog(ApplicationGlobals.getAPPLOGName(), "Начало работы программы импорта: " + new Date().toString(), true);
-
                     ProgramMesssages.putProgramParamsToLog();
-                    ImportProcessor importProcessor=importProcessorInstance();
 
                     Header h=new Header();
+                    FieldsCollection fields=h.loadFields(ProgramParameters.getParameterValue("tablename"),
+                                                        ProgramParameters.getParameterValue("filename"),
+                                                        Boolean.parseBoolean(ProgramParameters.getParameterValue("importtable")),
+                                                        Boolean.parseBoolean(ProgramParameters.getParameterValue("tableoverwrite")),
+                                                        Boolean.parseBoolean(ProgramParameters.getParameterValue("storealiases")),
+                                                        Integer.parseInt(ProgramParameters.getParameterValue("fieldscount"))
+                                                        );
+
+                    ImportProcessor importProcessor= new ImportProcessor();
 //                    h.loadFields( ProgramParameters.getParameterValue("tablename"),
 //                                                ProgramParameters.getParameterValue("filename"),
 //                                                Boolean.parseBoolean(ProgramParameters.getParameterValue("importtable")),
 //                                                Integer.parseInt(ProgramParameters.getParameterValue("fieldscount"))
 //                    );
 
-                    importProcessor.loadRecordsToDataBase(null);
+                    String dbTableName=ProgramParameters.getParameterValue("tablename");
+                    if (Boolean.parseBoolean(ProgramParameters.getParameterValue("importtable")))
+                        dbTableName+="_import";
+
+                    importProcessor.loadRecordsToDataBase(fields,ProgramParameters.getParameterValue("filename"),dbTableName);
 
 //                    Logger.putLineToLog(ApplicationGlobals.getAPPLOGName(), "Импортировано:" + importProcessor.getRowCount() + " записей. \n Импорт завершен успешно.", true);
 //                    Logger.putLineToLog(ApplicationGlobals.getAPPLOGName(), "Время завершения:" + new Date().toString(), true);
@@ -134,15 +146,16 @@ public class MainClass {
             }
 }
 
-private static ImportProcessor importProcessorInstance(){
-    String filename = ProgramParameters.getParameterValue("filename");
-    String tablename = ProgramParameters.getParameterValue("tablename");
-    int fieldscount = Integer.parseInt(ProgramParameters.getParameterValue("fieldscount"));
-    boolean storealiases = Boolean.parseBoolean(ProgramParameters.getParameterValue("fieldscount"));
-    boolean createtable = Boolean.parseBoolean(ProgramParameters.getParameterValue("createtable"));
-    boolean importtable = Boolean.parseBoolean(ProgramParameters.getParameterValue("importtable"));
-    boolean tableoverwrite = Boolean.parseBoolean(ProgramParameters.getParameterValue("tabledropnonprompt"));
-    return new ImportProcessor(filename, tablename, fieldscount, storealiases, createtable, importtable, tableoverwrite);
-}
+//private static ImportProcessor importProcessorInstance(){
+//    String filename = ProgramParameters.getParameterValue("filename");
+//    String tablename = ProgramParameters.getParameterValue("tablename");
+//    int fieldscount = Integer.parseInt(ProgramParameters.getParameterValue("fieldscount"));
+//    boolean storealiases = Boolean.parseBoolean(ProgramParameters.getParameterValue("fieldscount"));
+//    boolean createtable = Boolean.parseBoolean(ProgramParameters.getParameterValue("createtable"));
+//    boolean importtable = Boolean.parseBoolean(ProgramParameters.getParameterValue("importtable"));
+//    boolean tableoverwrite = Boolean.parseBoolean(ProgramParameters.getParameterValue("tabledropnonprompt"));
+//    //return new ImportProcessor(filename, tablename, fieldscount, storealiases, createtable, importtable, tableoverwrite);
+//    return new ImportProcessor(filename, fieldscount);
+//}
 
 }

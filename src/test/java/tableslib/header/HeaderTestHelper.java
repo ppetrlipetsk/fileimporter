@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class HeaderTestHelper {
-    private final static String[] FIELDS ={"material","kratkii_tekst_materiala","potrebnost_pen","pozitsiya_potrebnosti_pen","obem_potrebnosti","data_poslednego_izmeneniya_pozitsii_potr_","pozitsiya_potrebnosti_pen0","kratkii_tekst_materiala0"};
+    private final static String[] FIELDS ={"material","kratkii_tekst_materiala","potrebnost_pen","pozitsiya_potrebnosti_pen","obem_potrebnosti","data_poslednego_izmeneniya_pozitsii_potr_","pozitsiya_potrebnosti_pen0","kratkii_tekst_materiala0","idn"};
     private static HashMap<String, FieldType> FIELDSSET=new HashMap<>();
 
     public HeaderTestHelper() {
@@ -36,20 +36,7 @@ public class HeaderTestHelper {
         FIELDSSET.put("data_poslednego_izmeneniya_pozitsii_potr_",FieldType.DATETYPE);
         FIELDSSET.put("pozitsiya_potrebnosti_pen0",FieldType.STRINGTYPE);
         FIELDSSET.put("kratkii_tekst_materiala0",FieldType.LONGSTRINGTYPE);
-    }
-
-
-    public void dropTableIfExists(String tableName){
-        String query="delete from aliases where table_id in (select id from tables where tablename='"+tableName+"')\n" +
-                "delete from tables where tablename='"+tableName+"'" +
-                "drop table "+tableName;
-        try (DataBaseProcessor dp=new DataBaseProcessor(DataBaseConnector.getConnection())) {
-            //ResultSet resultSet = dp.query(query);
-            dp.exec(query);
-        } catch (SQLException|ConnectException e) {
-            e.printStackTrace();
-        }
-
+        FIELDSSET.put("idn",FieldType.INTTYPE);
     }
 
 
@@ -144,7 +131,7 @@ public class HeaderTestHelper {
         return s.replace(",","','").replace("]","").replace("[","").replace(" ","");
     }
 
-    int getDBAliasesCount(String tableName){
+    public int getDBAliasesCount(String tableName){
         int count=-1;
         String query="SELECT count(id) as countid  FROM aliases WHERE table_id in (select id from tables where tablename='"+tableName+"')"+
                 "and fieldalias in ("+serializeFields()+")";
@@ -157,7 +144,7 @@ public class HeaderTestHelper {
     }
 
     // Проверяем количество записей в таблице псевдонимов
-    boolean checkAliasesCount(String tableName) {
+   public boolean checkAliasesCount(String tableName) {
         boolean result=getDBAliasesCount(tableName)==FIELDS.length;
         System.out.print("Проверка количества полей псевдонимов:");
         String s=result?"OK":"FAILED";
@@ -166,7 +153,7 @@ public class HeaderTestHelper {
     }
 
     // Проверяем соответствие количества и имен полей в созданной таблице БД, количеству и именам полей в эталонной коллекции.
-    boolean checkTableFieldsCount(String tableName) {
+    public boolean checkTableFieldsCount(String tableName) {
         boolean actual=false;
         System.out.print("Проверка, соответствует ли количество полей в созданной таблице:");
         String query="select count(name) as countid from (\n" +

@@ -7,13 +7,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be856d62-7789-4249-8585-6b0cad7cb513" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/example1.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/history.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/ImportProcessorTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/tableslib/TableLib.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/tableslib/importprocessor/DataSetSample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/tableslib/importprocessor/ImportProcessotTestHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/Header.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tableslib/Header.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/ImportProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tableslib/ImportProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/history.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/history.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/ImportProcessorTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderCaller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderCaller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zmm.ini" beforeDir="false" afterPath="$PROJECT_DIR$/zmm.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/HeaderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTestHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTestHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MainClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MainClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor$DataImportCallBack.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor$DataImportCallBack.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zmm_applog.log" beforeDir="false" afterPath="$PROJECT_DIR$/zmm_applog.log" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +77,12 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="tableslib.importprocessor" />
+      <recent name="tableslib/importprocessor" />
       <recent name="tableslib" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\96-paliy\IdeaProjects\tmc_processor\tmc_file_importer" />
@@ -76,6 +91,7 @@
       <recent name="" />
     </key>
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="tableslib.importprocessor" />
       <recent name="fileengine" />
       <recent name="typeslib" />
       <recent name="tableslib" />
@@ -94,6 +110,14 @@
     </option>
   </component>
   <component name="RunManager" selected="JUnit.HeaderTest">
+    <configuration name="MainClass" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainClass" />
+      <module name="tmc_file_importer" />
+      <option name="PROGRAM_PARAMETERS" value="tablename=zmm filename=c://files//tmc//xls//zmm_short.xlsx fieldscount=287 storealiases=true  createtable=true  applog=zmm_applog.log   errorlog=zmm_errorlog.log  importtable=false tableoverwrite=true fieldsfile=zmm.ini" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="XLS2CSVmra" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="XLS2CSVmra" />
       <module name="tmc_file_importer" />
@@ -112,64 +136,13 @@
       <module name="tmc_file_importer" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tableslib.header.*" />
+          <option name="PATTERN" value=".*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="tableslib.header" />
-      <option name="MAIN_CLASS_NAME" value="tableslib.header.HeaderTest" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="HeaderTest" />
       <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HeaderTest.loadFieldsDefaults" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tmc_file_importer" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tableslib.header.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tableslib.header" />
-      <option name="MAIN_CLASS_NAME" value="tableslib.header.HeaderTest" />
-      <option name="METHOD_NAME" value="loadFieldsDefaults" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HeaderTest.loadFieldsIllegalFieldCountLessThanNeed" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tmc_file_importer" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tableslib.header.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tableslib.header" />
-      <option name="MAIN_CLASS_NAME" value="tableslib.header.HeaderTest" />
-      <option name="METHOD_NAME" value="loadFieldsIllegalFieldCountLessThanNeed" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HeaderTest.loadFieldsImportTable" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tmc_file_importer" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tableslib.header.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="tableslib.header" />
-      <option name="MAIN_CLASS_NAME" value="tableslib.header.HeaderTest" />
-      <option name="METHOD_NAME" value="loadFieldsImportTable" />
-      <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -179,13 +152,46 @@
       <module name="tmc_file_importer" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tableslib.header.*" />
+          <option name="PATTERN" value=".*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="tableslib.header" />
-      <option name="MAIN_CLASS_NAME" value="tableslib.header.HeaderTest" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="HeaderTest" />
       <option name="METHOD_NAME" value="loadFieldsImportTableIllegalAliases" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImportProcessorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tmc_file_importer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value=".*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ImportProcessorTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImportProcessorTest.importRecordsToDataBase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tmc_file_importer" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value=".*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ImportProcessorTest" />
+      <option name="METHOD_NAME" value="importRecordsToDataBase" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -234,20 +240,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Maven.tmc_file_importer [package]" />
-      <item itemvalue="JUnit.HeaderTest.loadFieldsImportTable" />
+      <item itemvalue="Application.MainClass" />
       <item itemvalue="JUnit.HeaderTest" />
-      <item itemvalue="JUnit.HeaderTest.loadFieldsIllegalFieldCountLessThanNeed" />
       <item itemvalue="JUnit.HeaderTest.loadFieldsImportTableIllegalAliases" />
-      <item itemvalue="JUnit.HeaderTest.loadFieldsDefaults" />
+      <item itemvalue="Maven.tmc_file_importer [package]" />
+      <item itemvalue="JUnit.ImportProcessorTest.importRecordsToDataBase" />
+      <item itemvalue="JUnit.ImportProcessorTest" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.HeaderTest" />
+        <item itemvalue="JUnit.ImportProcessorTest" />
+        <item itemvalue="JUnit.ImportProcessorTest.importRecordsToDataBase" />
+        <item itemvalue="Application.MainClass" />
         <item itemvalue="JUnit.HeaderTest.loadFieldsImportTableIllegalAliases" />
-        <item itemvalue="JUnit.HeaderTest.loadFieldsImportTable" />
-        <item itemvalue="JUnit.HeaderTest.loadFieldsDefaults" />
-        <item itemvalue="JUnit.HeaderTest.loadFieldsIllegalFieldCountLessThanNeed" />
       </list>
     </recent_temporary>
   </component>
@@ -276,7 +282,7 @@
       <workItem from="1591798081011" duration="1023000" />
       <workItem from="1591799244288" duration="21689000" />
       <workItem from="1592220204542" duration="2573000" />
-      <workItem from="1592223387332" duration="100241000" />
+      <workItem from="1592223387332" duration="121087000" />
     </task>
     <servers />
   </component>
@@ -313,18 +319,26 @@
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTest.java</url>
+          <url>file://$PROJECT_DIR$/src/test/java/HeaderTest.java</url>
           <line>424</line>
           <option name="timeStamp" value="227" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTest.java</url>
+          <url>file://$PROJECT_DIR$/src/test/java/HeaderTest.java</url>
           <line>281</line>
           <option name="timeStamp" value="243" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/MainClass.java</url>
+          <line>114</line>
+          <option name="timeStamp" value="247" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="sampleData.entrySet().toArray()[0]" />
+      </configuration>
       <configuration name="Application">
         <watch expression="field.getFieldType()" language="JAVA" />
         <watch expression="entry.getValue().getFieldType()" language="JAVA" />
