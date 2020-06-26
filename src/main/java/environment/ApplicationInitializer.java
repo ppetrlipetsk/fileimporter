@@ -12,18 +12,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class ApplicationInitializer {
-    private static String[] logs={ApplicationGlobals.getAPPLOGName(),ApplicationGlobals.getERRORLOGName()};
 
-
-    public String[] getLogs() {
-        return logs;
-    }
-
-    public void setLogs(String[] logs) {
-        logs = logs;
-    }
-
-    public static boolean initApplication(String[] args) throws IOException, Exception {
+    public static boolean initApplication(String[] args) throws Exception {
         initProgramParametersValues();
         if (!importProgramParameters(args)) return false;
         if (!importConfigParameters()) return false;
@@ -56,7 +46,7 @@ public class ApplicationInitializer {
     private static boolean parseProgramParameters(String[] args) {
         for( String arg:args){
             String[] par=arg.split("=");
-            if ((par==null)||(par.length!=2)||!ProgramParameters.parameterExists(par[0])) {
+            if ((par.length!=2)||!ProgramParameters.parameterExists(par[0])) {
                 System.out.println("Ошибка параметра "+par[0]);
                 return false;
             }
@@ -83,7 +73,7 @@ public class ApplicationInitializer {
         }
     }
 
-    private static void  loadFieldsDefaultTypes() throws IOException, SQLException, ClassNotFoundException {
+    private static void  loadFieldsDefaultTypes() throws IOException {
         if (ProgramParameters.parameterExists("fieldsfile")) {
             String fileName = ProgramParameters.getParameterValue("fieldsfile");
             String tableName = ProgramParameters.getParameterValue("tablename");

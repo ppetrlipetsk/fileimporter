@@ -2,9 +2,9 @@ package tableslib.importprocessor;
 
 import java.util.HashMap;
 
-public class DataSetSample {
+class DataSetSample {
 
-    public static   HashMap<Integer,HashMap<String, Object>> getSampleData() {
+    static   HashMap<Integer,HashMap<String, Object>> getSampleData() {
         HashMap<Integer,HashMap<String,Object>> lines=new HashMap<>();
         HashMap<String,Object> line=new HashMap<>();
 

@@ -12,12 +12,15 @@ import throwlib.FieldTypeError;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.*;
 
 public class ImportProcessor {
     private int rowCount;
-    //private String dbTableName; //имя таблицы БД, в которую будут записываться строки данных. Строится на основе tableName и если importTable=true, то добавляется суффикс "_import"
+
+
+    public int getRowCount() {
+        return rowCount;
+    }
 
     public ImportProcessor() {
         this.rowCount=0;
@@ -52,25 +55,22 @@ public class ImportProcessor {
     private void insertRecord(FieldsCollection fields, String tableName, LinkedList<String> list) throws SQLException {
 
         String query= QueryRepository.getRecordInsertQuery().replace("@tablename@",tableName);
-        RecordInsertQueryFiller filler=new RecordInsertQueryFiller(fields, tableName, list);
+        RecordInsertQueryFiller filler=new RecordInsertQueryFiller(fields,  list);
         query=query.replace("@fields@",filler.getFieldsNamesQueryString());
 
         try {
             DataBaseProcessor dp=new DataBaseProcessor(DataBaseConnector.getConnection());
             query=query.replace("@values@",filler.getValuesStr());
             dp.exec(query);
-        } catch (SQLException|FieldTypeError|ConnectException|ParseException e) {
-          //  e.printStackTrace();
+        } catch (SQLException|FieldTypeError|ConnectException e) {
             throw new SQLException(e);
         }
-
     }
 
     private class DataImportCallBack implements IParserCallBack {
         private long currentRow;
-        //private int fieldsCount;
-        FieldsCollection fields;
-        String dbTableName;
+        final FieldsCollection fields;
+        final String dbTableName;
 
         @Override
         public void call(LinkedList<String> list) {

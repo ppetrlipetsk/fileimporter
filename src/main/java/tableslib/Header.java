@@ -5,35 +5,20 @@ import com.ppsdevelopment.loglib.Logger;
 import com.ppsdevelopment.tmcprocessor.tmctypeslib.*;
 import excelengine.ExcelReader;
 import excelengine.IParserCallBack;
-import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
-import org.xml.sax.SAXException;
 import throwlib.FieldTypeCorrectionError;
 import throwlib.FieldTypeError;
-
-import java.io.IOException;
 import java.net.ConnectException;
 import java.sql.SQLException;
 import java.util.*;
 
 public class Header {
-    private int rowCount;
 
-    public int getRowCount() {
-        return rowCount;
-    }
-
-    //    private boolean isStoreAliases() {
-//        return storeAliases;
-//    }
-
-    /**
-     *
+    /*
      * При загрузке таблицы есть следующие ситуации:
      *  1. Таблицы загружаются в чистую БД.
      *  2. При загрузке основной таблицы, другая основная таблица с тем же именем, уже загружена
      *  3. При загрузке таблицы изменений, другая таблица изменений с тем же именем, уже существует в БД.
      *  4. При загрузке таблицы изменений, основной таблицы не существует.
-     *
      */
     public FieldsCollection loadFields(String tableName, String fileName, boolean importTable, boolean tableOverwrite,  boolean storeAliases, int fieldsCount) throws Exception {
         String dbTableName= importTable ? tableName+"_import" : tableName;
@@ -102,15 +87,14 @@ public class Header {
     private boolean isTableExists(String dbTableName) {
         try {
             return TableClass.isTableExist(dbTableName);
-        } catch (SQLException|ConnectException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     private long getTableId(String tableName) throws SQLException {
-        long  tableId=tableslib.TableClass.getTableId(tableName);
-        return tableId;
+        return TableClass.getTableId(tableName);
     }
 
     private void createTable(FieldsCollection fields, String tableName, String dbTableName, boolean tableOverwrite,  boolean storeAliases, boolean importTable) throws Exception {
@@ -126,12 +110,12 @@ public class Header {
         }
     }
 
-    private void createAliases(FieldsCollection fields, String tableName, boolean storeAliases) throws SQLException, FieldTypeError {
+    private void createAliases(FieldsCollection fields, String tableName, boolean storeAliases) throws SQLException{
         if (storeAliases) {
             long tableId = getTableId(tableName);
             if ((tableId==-1))
                 tableId= TableClass.insertTable(tableName);
-            TableClass.insertAliases(fields.getFields(), "aliases", tableId);
+            TableClass.insertAliases(fields.getFields(), tableId);
         }
     }
 
@@ -190,7 +174,6 @@ public class Header {
         StringBuilder s=new StringBuilder(alias);
         boolean b=true;
         while(b) {
-            //String indxStr= Integer.toString(fieldIndex);
             String indxStr= String.valueOf(fieldIndex);
             s.append(indxStr);
             if (fields.containsKey(s.toString())) {
@@ -254,8 +237,8 @@ public class Header {
 
     private class FieldsCallback implements IParserCallBack {
         private long currentRow;
-        private int fieldsCount;
-        private FieldsCollection fields;
+        private final int fieldsCount;
+        private final FieldsCollection fields;
 
 
         private FieldsCallback(int fieldscount, FieldsCollection fields) {
@@ -273,8 +256,4 @@ public class Header {
         }
     }
 
-    public boolean validateFieldsAndAliases_Check(FieldsCollection fieldsSource, FieldsCollection destination) throws ImportTableException {
-        validateFieldsAndAliases( fieldsSource,  destination);
-        return true;
-    }
 }

@@ -41,11 +41,11 @@ public class ExcelReader {
 
 
 
-    public void processSheet(
-                Styles styles,
-                SharedStrings strings,
-                XSSFSheetXMLHandler.SheetContentsHandler sheetHandler,
-                InputStream sheetInputStream) throws IOException, SAXException {
+    private void processSheet(
+            Styles styles,
+            SharedStrings strings,
+            XSSFSheetXMLHandler.SheetContentsHandler sheetHandler,
+            InputStream sheetInputStream) throws IOException, SAXException {
             DataFormatter formatter = new DataFormatter();
             InputSource sheetSource = new InputSource(sheetInputStream);
             try {
@@ -59,14 +59,14 @@ public class ExcelReader {
             }
         }
 
-    public void process() throws IOException, OpenXML4JException, SAXException {
+    private void process() throws IOException, OpenXML4JException, SAXException {
         ReadOnlySharedStringsTable strings = new ReadOnlySharedStringsTable(this.xlsxPackage);
         XSSFReader xssfReader = new XSSFReader(this.xlsxPackage);
         StylesTable styles = xssfReader.getStylesTable();
         XSSFReader.SheetIterator iter = (XSSFReader.SheetIterator) xssfReader.getSheetsData();
         while (iter.hasNext()) {
             try (InputStream stream = iter.next()) {
-                String sheetName = iter.getSheetName();
+                //String sheetName = iter.getSheetName();
                 processSheet(styles, strings, new SheetToFields(), stream);
             }
         }
@@ -77,9 +77,7 @@ public class ExcelReader {
         if (!xlsxFile.exists()) {
             throw new IOException("File not found");
         }
-
-        OPCPackage p = OPCPackage.open(xlsxFile.getPath(), PackageAccess.READ);
-            this.xlsxPackage=p;
+        this.xlsxPackage= OPCPackage.open(xlsxFile.getPath(), PackageAccess.READ);
         process();
     }
 
@@ -93,20 +91,17 @@ public class ExcelReader {
 
 
     private class SheetToFields implements XSSFSheetXMLHandler.SheetContentsHandler {
-    private boolean firstCellOfRow;
     private int currentRow = -1;
     private int currentCol = -1;
-    private LinkedList<String> list;
+    private final LinkedList<String> list;
 
-    public SheetToFields() {
+    SheetToFields() {
         this.list = new LinkedList<>();
     }
 
     @Override
     public void startRow(int rowNum) {
-
         list.clear();
-        firstCellOfRow = true;
         currentRow = rowNum;
         currentCol = -1;
     }

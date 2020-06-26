@@ -2,16 +2,14 @@ package environment;
 
 public class QueryRepository {
     public static String getIdTableFromTables(){
-        String s="select [id] from [dogc].[dbo].[tables] where [tablename]='%tablename%'";
-        return s;
+        return "select [id] from [dogc].[dbo].[tables] where [tablename]='%tablename%'";
     }
 
     public static String getInsertTableQuery(){
-        String s="INSERT INTO [dbo].[tables]" +
+        return "INSERT INTO [dbo].[tables]" +
                 "           ([tablename])" +
                 "     VALUES (" +
                 "'%value1%')";
-        return s;
     }
 
     public static String getAliasInsertQuery(){
@@ -33,18 +31,18 @@ public class QueryRepository {
         return "drop table [dbo].@tablename@";
     }
 
-    public static String deleteFromTableQuery(boolean where){
-        String w="";
-        if (where) w=" where @condition@";
-        return "delete from [dbo].@tablename@"+w;
-    }
+//    public static String deleteFromTableQuery(boolean where){
+//        String w="";
+//        if (where) w=" where @condition@";
+//        return "delete from [dbo].@tablename@"+w;
+//    }
 
     public static String deleteFromaliasesQuery(){
         return "delete from aliases where table_id in (select id from tables where tablename='@tablename@')";
     }
 
 
-    public static String deleteTableAliasQuery(boolean b) {
+    public static String deleteTableAliasQuery() {
         return "delete from tables where tablename='@tablename@'";
     }
 

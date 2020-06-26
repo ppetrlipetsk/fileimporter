@@ -1,2 +1,14 @@
 17/06/2020
 - commit before DetectTypeClass move to tmctypeslib
+
+Version 1.0.2-SNAPSHOT
+- добавлен метод тестирования работы импорта предопределенных полей
+Version 1.0.3-SNAPSHOT
+- исправлен баг в работе loadFieldsDefaults()
+Version 1.0.4-SNAPSHOT
+- разработан тест для класса ImportPrcessor
+- класс HeaderTest перенесен в корневой package
+Version 1.1.4-SNAPSHOT
+- Сделан рефакторинг приложения. Логика разбита на два класса: Header и ImportProcessor.
+- Библиотеки вынесены из приложения.
+- Инициализация приложения производится в пакете environment

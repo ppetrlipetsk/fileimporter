@@ -3,8 +3,6 @@ package tableslib.header;
 import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
 import com.ppsdevelopment.jdbcprocessor.DataBaseProcessor;
 import com.ppsdevelopment.tmcprocessor.tmctypeslib.FieldType;
-
-import java.net.ConnectException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -12,7 +10,7 @@ import java.util.HashMap;
 
 public class HeaderTestHelper {
     private final static String[] FIELDS ={"material","kratkii_tekst_materiala","potrebnost_pen","pozitsiya_potrebnosti_pen","obem_potrebnosti","data_poslednego_izmeneniya_pozitsii_potr_","pozitsiya_potrebnosti_pen0","kratkii_tekst_materiala0","idn"};
-    private static HashMap<String, FieldType> FIELDSSET=new HashMap<>();
+    private static final HashMap<String, FieldType> FIELDSSET=new HashMap<>();
 
     public HeaderTestHelper() {
         initFieldsSet();
@@ -26,7 +24,7 @@ public class HeaderTestHelper {
         return FIELDSSET;
     }
 
-    public void initFieldsSet() {
+    private void initFieldsSet() {
         FIELDSSET.clear();
         FIELDSSET.put("material", FieldType.STRINGTYPE);
         FIELDSSET.put("kratkii_tekst_materiala",FieldType.STRINGTYPE);

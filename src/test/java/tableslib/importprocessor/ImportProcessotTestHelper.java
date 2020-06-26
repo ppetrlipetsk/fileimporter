@@ -34,14 +34,12 @@ public class ImportProcessotTestHelper {
         int idn=(int)line.get("idn");
         HashMap<String, Object> sampleLine=sampleData.get(idn);
         boolean c1=true;
-        Iterator<Map.Entry<String, Object>> itr1 = line.entrySet().iterator();
-        while ((itr1.hasNext())) {
-            Map.Entry<String, Object> entry = itr1.next();
-            String key=entry.getKey();
-            Object value=entry.getValue();
-            FieldType t=fields.get(key).getFieldType();
+        for (Map.Entry<String, Object> entry : line.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            FieldType t = fields.get(key).getFieldType();
             try {
-                c1=c1& fieldsEquals(value,sampleLine.get(key),t);
+                c1 = c1 && fieldsEquals(value, sampleLine.get(key), t);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -59,14 +57,14 @@ public class ImportProcessotTestHelper {
     }
 
     private static boolean fieldsEquals(Object value, Object sample, FieldType fieldType) throws Exception {
-        if (FieldType.INTTYPE==fieldType) return valuesEquals((Integer) value,Integer.valueOf((String)sample));
+        if (FieldType.INTTYPE==fieldType) return valuesEquals(value,Integer.valueOf((String)sample));
         if ((FieldType.BIGINTTYPE==fieldType)||(FieldType.STRINGTYPE==fieldType)||(FieldType.LONGSTRINGTYPE==fieldType)) return (String.valueOf(value)).equals(String.valueOf(sample));
-        if ((FieldType.FLOATTYPE==fieldType)||(FieldType.DECIMALTYPE==fieldType)) return valuesEquals ((Double) value, Double.valueOf(String.valueOf(sample)));
+        if ((FieldType.FLOATTYPE==fieldType)||(FieldType.DECIMALTYPE==fieldType)) return valuesEquals ( value, Double.valueOf(String.valueOf(sample)));
 
         if (FieldType.DATETYPE==fieldType) {
             String s1=null;
             try {
-                s1= (com.ppsdevelopment.converters.DateFormatter.convertDateFormat(((Date) value).toString(), "yyyy-MM-dd", "dd.MM.yyyy", null));
+                s1= (com.ppsdevelopment.converters.DateFormatter.convertDateFormat(value.toString(), "yyyy-MM-dd", "dd.MM.yyyy", null));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -76,7 +74,7 @@ public class ImportProcessotTestHelper {
         throw new Exception("Нет определения для сравнения типа поля:"+fieldType.toString());
     }
 
-    public static ArrayList<HashMap<String, Object>> loadDataFromDB(String tablename, FieldsCollection fields) {
+    private static ArrayList<HashMap<String, Object>> loadDataFromDB(String tablename, FieldsCollection fields) {
         ArrayList<HashMap<String, Object>> lines=new ArrayList<>();
         HashMap<String, Object> values=new HashMap<>();
         String query="select * from "+tablename;

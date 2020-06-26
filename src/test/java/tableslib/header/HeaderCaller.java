@@ -12,15 +12,11 @@ import java.sql.SQLException;
 
 public class HeaderCaller {
     private  String[] fields;
-    private String TABLENAME;
+    private final String TABLENAME;
 
     public HeaderCaller(String TABLENAME, String[] fields) {
         this.TABLENAME = TABLENAME;
         this.fields =fields;
-    }
-
-    public HeaderCaller(String TABLENAME) {
-        this.TABLENAME = TABLENAME;
     }
 
     public FieldsCollection loadFieldsStandartCall() throws Exception {
@@ -92,24 +88,23 @@ public class HeaderCaller {
         return h.loadFields(tableName,fileName,importTable,tableOverwrite,storeAliases,fieldsCount);
     }
 
-    public boolean loadFieldsImportTable() throws Exception {
+    public void loadFieldsImportTable() throws Exception {
         final String fileName = "C:\\files\\tmc\\xls\\example1.xlsx";
         final boolean storeAliases = false;
         final boolean importTable = true;
         final boolean tableOverwrite = true;
         final int fieldsCount = fields.length;
         execLoadFields(TABLENAME,fileName,importTable,tableOverwrite,storeAliases,fieldsCount);
-        return importTable;
     }
 
-    public void loadFieldsImportTableIllegalAliases() throws Exception {
-        final String fileName = "C:\\files\\tmc\\xls\\example1.xlsx";
-        final boolean storeAliases = false;
-        final boolean importTable = true;
-        final boolean tableOverwrite = true;
-        final int fieldsCount = fields.length;
-        execLoadFields(TABLENAME,fileName,importTable,tableOverwrite,storeAliases,fieldsCount);
-    }
+//    public void loadFieldsImportTableIllegalAliases() throws Exception {
+//        final String fileName = "C:\\files\\tmc\\xls\\example1.xlsx";
+//        final boolean storeAliases = false;
+//        final boolean importTable = true;
+//        final boolean tableOverwrite = true;
+//        final int fieldsCount = fields.length;
+//        execLoadFields(TABLENAME,fileName,importTable,tableOverwrite,storeAliases,fieldsCount);
+//    }
 
 
     public void loadFieldsDefaults() throws Exception {
@@ -154,7 +149,7 @@ public class HeaderCaller {
         }
     }
 
-    private static void  loadFieldsDefaultTypes() throws IOException, SQLException, ClassNotFoundException {
+    private static void  loadFieldsDefaultTypes() throws IOException {
             String fileName = "example1.ini";
             String tableName = "example1";
             try {
