@@ -17,3 +17,6 @@ Version 1.2.4-SNAPSHOT
 - TableClass.deleteTableAlias() renamed to TableClass.deleteTableRecord()
 - Refactoring maked.
 - Check for database table existing, before import slave table to database.
+
+Version 1.3.5-SNAPSHOT
+- fix ProgramMesssages() messages.

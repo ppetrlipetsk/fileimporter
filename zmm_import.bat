@@ -9,6 +9,6 @@ set importtable=true
 set tableoverwrite=true  
 set fieldsfile=zmm.ini
 
-java -jar target/tmc_file_importer-1.2.4-SNAPSHOT-jar-with-dependencies.jar tablename=%tablename% filename=%filename% fieldscount=%fieldscount%  storealiases=%storealiases%   applog=%applog% errorlog=%errorlog% importtable=%importtable% tableoverwrite=%tableoverwrite%  fieldsfile=%fieldsfile%
+java -jar target/tmc_file_importer-1.3.5-jar-with-dependencies.jar tablename=%tablename% filename=%filename% fieldscount=%fieldscount%  storealiases=%storealiases%   applog=%applog% errorlog=%errorlog% importtable=%importtable% tableoverwrite=%tableoverwrite%  fieldsfile=%fieldsfile%
 
 pause
