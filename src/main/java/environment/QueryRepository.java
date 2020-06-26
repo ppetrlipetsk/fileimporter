@@ -31,18 +31,12 @@ public class QueryRepository {
         return "drop table [dbo].@tablename@";
     }
 
-//    public static String deleteFromTableQuery(boolean where){
-//        String w="";
-//        if (where) w=" where @condition@";
-//        return "delete from [dbo].@tablename@"+w;
-//    }
-
     public static String deleteFromaliasesQuery(){
         return "delete from aliases where table_id in (select id from tables where tablename='@tablename@')";
     }
 
 
-    public static String deleteTableAliasQuery() {
+    public static String deleteTableRecordQuery() {
         return "delete from tables where tablename='@tablename@'";
     }
 
@@ -55,5 +49,12 @@ public class QueryRepository {
                 "ALTER TABLE dbo.zmm SET (LOCK_ESCALATION = TABLE)\n";
         //+
 //                "COMMIT\n";
+    }
+
+    public static String tableExists(String tableName){
+        return " IF EXISTS (SELECT 1  FROM INFORMATION_SCHEMA.TABLES " +
+                " WHERE TABLE_TYPE='BASE TABLE' " +
+                " AND TABLE_NAME='"+tableName+"')" +
+                " SELECT 1 AS res ELSE SELECT 0 AS res";
     }
 }

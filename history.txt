@@ -12,3 +12,8 @@ Version 1.1.4-SNAPSHOT
 - Сделан рефакторинг приложения. Логика разбита на два класса: Header и ImportProcessor.
 - Библиотеки вынесены из приложения.
 - Инициализация приложения производится в пакете environment
+Version 1.2.4-SNAPSHOT
+- QueryRepository.deleteTableAliasQuery() renamed to  QueryRepository.deleteTableRecordQuery();
+- TableClass.deleteTableAlias() renamed to TableClass.deleteTableRecord()
+- Refactoring maked.
+- Check for database table existing, before import slave table to database.

@@ -56,7 +56,6 @@ import environment.*;
 import tableslib.Header;
 import tableslib.ImportProcessor;
 import com.ppsdevelopment.programparameters.ProgramParameters;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -68,7 +67,6 @@ import environment.ProgramMesssages;
  * tablename=zmm filename=c://files//tmc//xls//zmm_short.xlsx fieldscount=287 storealiases=false  createtable=true  applog=zmm_applog.log   errorlog=zmm_errorlog.log  importtable=true tableoverwrite=true fieldsfile=zmm.ini
  */
 public class MainClass {
-
     public static void main(String[] args) {
             try {
                 if (!ApplicationInitializer.initApplication(args)) {
@@ -86,9 +84,9 @@ public class MainClass {
                                                         Boolean.parseBoolean(ProgramParameters.getParameterValue("storealiases")),
                                                         Integer.parseInt(ProgramParameters.getParameterValue("fieldscount"))
                                                         );
+                    if (h.getExceptionMessage()!=null) throw new Exception(h.getExceptionMessage());
 
                     ImportProcessor importProcessor= new ImportProcessor();
-
                     String dbTableName=ProgramParameters.getParameterValue("tablename");
                     if (Boolean.parseBoolean(ProgramParameters.getParameterValue("importtable")))
                         dbTableName+="_import";
@@ -110,10 +108,6 @@ public class MainClass {
             catch (Exception e) {
                 Logger.putLineToLog(ApplicationGlobals.getERRORLOGName(), "Импорт завершен с ошибками.\nСообщение об ошибке:" + e.toString(), true);
             }
-//            catch (IOException e){
-//                e.printStackTrace();
-//                System.out.println("Ошибка инициализации системы логгирования. Аварийное завершение работы.");
-//            }
             finally {
                 try {
                     DataBaseConnector.close();
@@ -125,18 +119,5 @@ public class MainClass {
                     System.out.println("Ошибка закрытия файлов журналов. Сообщение об ошибке:"+e.toString());
                 }
             }
-}
-
-//private static ImportProcessor importProcessorInstance(){
-//    String filename = ProgramParameters.getParameterValue("filename");
-//    String tablename = ProgramParameters.getParameterValue("tablename");
-//    int fieldscount = Integer.parseInt(ProgramParameters.getParameterValue("fieldscount"));
-//    boolean storealiases = Boolean.parseBoolean(ProgramParameters.getParameterValue("fieldscount"));
-//    boolean createtable = Boolean.parseBoolean(ProgramParameters.getParameterValue("createtable"));
-//    boolean importtable = Boolean.parseBoolean(ProgramParameters.getParameterValue("importtable"));
-//    boolean tableoverwrite = Boolean.parseBoolean(ProgramParameters.getParameterValue("tabledropnonprompt"));
-//    //return new ImportProcessor(filename, tablename, fieldscount, storealiases, createtable, importtable, tableoverwrite);
-//    return new ImportProcessor(filename, fieldscount);
-//}
-
+    }
 }

@@ -10,38 +10,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be856d62-7789-4249-8585-6b0cad7cb513" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/zmm_import.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/history.txt" beforeDir="false" afterPath="$PROJECT_DIR$/history.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/environment/ApplicationGlobals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/environment/ApplicationGlobals.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/environment/ApplicationInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/environment/ApplicationInitializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/environment/ProgramMesssages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/environment/ProgramMesssages.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/environment/QueryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/environment/QueryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/excelengine/ExcelReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/excelengine/ExcelReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/excelengine/IParserCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/excelengine/IParserCallBack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/loglib/MessagesClass.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/loglib/ErrorsClass.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/Header.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tableslib/Header.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/ImportProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tableslib/ImportProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/ImportTableException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tableslib/ImportTableException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/ImportTableException.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tableslib/TableClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tableslib/TableClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/throwlib/EIllegalFieldsSet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/throwlib/FieldTypeCorrectionError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/throwlib/FieldTypeCorrectionError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/throwlib/FieldTypeError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/throwlib/FieldTypeError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/throwlib/DateFormatError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/throwlib/FieldTypeCorrectionError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/throwlib/LineReadError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/throwlib/NullStringLineError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/throwlib/TableCreationError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/HeaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/HeaderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ImportProcessorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ImportProcessorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/TableLib.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tableslib/TableLib.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderCaller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderCaller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTestHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tableslib/header/HeaderTestHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/importprocessor/DataSetSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tableslib/importprocessor/DataSetSample.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/tableslib/importprocessor/ImportProcessotTestHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/tableslib/importprocessor/ImportProcessotTestHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/MainClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MainClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/loglib/MessagesClass.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/loglib/ErrorsClass.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tableslib/AliasFiller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/AliasFiller.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor$DataImportCallBack.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor$DataImportCallBack.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/ImportProcessor.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tableslib/RecordInsertQueryFiller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/RecordInsertQueryFiller.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tableslib/TableClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tableslib/TableClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/EIllegalFieldsSet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeCorrectionError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeCorrectionError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/DateFormatError.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeCorrectionError.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/throwlib/FieldTypeError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/LineReadError.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/NullStringLineError.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/throwlib/TableCreationError.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/zmm_applog.log" beforeDir="false" afterPath="$PROJECT_DIR$/zmm_applog.log" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -128,7 +130,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.ImportProcessorTest">
+  <component name="RunManager" selected="Application.MainClass">
     <configuration name="MainClass" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainClass" />
       <module name="tmc_file_importer" />
@@ -167,17 +169,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HeaderTest.loadFieldsImportTableIllegalAliases" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HeaderTest.loadFieldsImportTableWhenMasterNotExists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="tmc_file_importer" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value=".*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="HeaderTest" />
-      <option name="METHOD_NAME" value="loadFieldsImportTableIllegalAliases" />
+      <option name="METHOD_NAME" value="loadFieldsImportTableWhenMasterNotExists" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -261,18 +257,18 @@
     <list>
       <item itemvalue="Application.MainClass" />
       <item itemvalue="JUnit.HeaderTest" />
-      <item itemvalue="JUnit.HeaderTest.loadFieldsImportTableIllegalAliases" />
       <item itemvalue="JUnit.ImportProcessorTest.importRecordsToDataBase" />
       <item itemvalue="JUnit.ImportProcessorTest" />
       <item itemvalue="Maven.tmc_file_importer [package]" />
+      <item itemvalue="JUnit.HeaderTest.loadFieldsImportTableWhenMasterNotExists" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.ImportProcessorTest" />
         <item itemvalue="JUnit.HeaderTest" />
+        <item itemvalue="JUnit.HeaderTest.loadFieldsImportTableWhenMasterNotExists" />
         <item itemvalue="Application.MainClass" />
         <item itemvalue="JUnit.ImportProcessorTest.importRecordsToDataBase" />
-        <item itemvalue="JUnit.HeaderTest.loadFieldsImportTableIllegalAliases" />
       </list>
     </recent_temporary>
   </component>
@@ -301,7 +297,7 @@
       <workItem from="1591798081011" duration="1023000" />
       <workItem from="1591799244288" duration="21689000" />
       <workItem from="1592220204542" duration="2573000" />
-      <workItem from="1592223387332" duration="127011000" />
+      <workItem from="1592223387332" duration="134323000" />
     </task>
     <servers />
   </component>
@@ -341,11 +337,6 @@
           <url>file://$PROJECT_DIR$/src/test/java/HeaderTest.java</url>
           <line>424</line>
           <option name="timeStamp" value="227" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/HeaderTest.java</url>
-          <line>281</line>
-          <option name="timeStamp" value="243" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

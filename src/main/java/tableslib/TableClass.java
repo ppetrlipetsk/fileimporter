@@ -1,18 +1,14 @@
 package tableslib;
 /*
-Класс для работы с таблицей
+Класс для работы с таблицами
  */
 import com.ppsdevelopment.converters.DateFormatter;
 import com.ppsdevelopment.jdbcprocessor.DataBaseConnector;
 import com.ppsdevelopment.jdbcprocessor.DataBaseProcessor;
 import com.ppsdevelopment.jdbcprocessor.QueryPreparer;
-import com.ppsdevelopment.loglib.Logger;
 import com.ppsdevelopment.tmcprocessor.tmctypeslib.*;
-
 import environment.QueryRepository;
-import throwlib.DateFormatError;
 import throwlib.FieldTypeError;
-
 import java.net.ConnectException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,6 +56,21 @@ class TableClass {
             dbp.insertPreparedQuery(query, new AliasFiller((FieldRecord) entry.getValue(), tableId),"id");
         }
     }
+
+    static boolean isTableExists(String tableName) throws SQLException {
+        String query = QueryRepository.tableExists(tableName);
+        boolean exists = true;
+        try (DataBaseProcessor dp = new DataBaseProcessor(DataBaseConnector.getConnection())) {
+            ResultSet resultSet = dp.query(query);
+            if ((resultSet != null)) {
+                while (resultSet.next()) {
+                    exists = exists & (resultSet.getInt("res") == 1);
+                }
+            }
+        }
+        return exists;
+    }
+
 
     static long getTableId(String iuspt_table) throws SQLException {
         String query = getIdTableQuery().replace("%tablename%", iuspt_table);
@@ -122,23 +133,23 @@ class TableClass {
         dp.exec(query);
     }
 
-    static void deleteAliases(String tableName){
+    static void deleteAliases(String tableName) throws Exception {
             String query = QueryRepository.deleteFromaliasesQuery().replace("@tablename@", tableName);
             try {
                 DataBaseProcessor dp=new DataBaseProcessor(DataBaseConnector.getConnection());
                 dp.exec(query);
             } catch (ConnectException | SQLException e) {
-                e.printStackTrace();
+                throw new Exception("Ошибка БД при удалении записей из таблицы псевдонимов. Сообщение об ошибке:"+e.toString());
             }
     }
 
-    static void insertDeletedField(String dbTableName) {
+    static void insertDeletedField(String dbTableName) throws Exception {
         String query = QueryRepository.insertDeletedField().replace("@tablename@", dbTableName);
         try {
             DataBaseProcessor dp=new DataBaseProcessor(DataBaseConnector.getConnection());
             dp.exec(query);
         } catch (ConnectException | SQLException e) {
-            e.printStackTrace();
+            throw new Exception("Ошибка вставки поля 'deleted'. Сообщение об ошибке:"+e.toString());
         }
     }
 
@@ -160,13 +171,13 @@ class TableClass {
     }
 
 
-    static void deleteTableAlias(String tableName) {
-        String query = QueryRepository.deleteTableAliasQuery().replace("@tablename@", tableName);
+    static void deleteTableRecord(String tableName) throws Exception {
+        String query = QueryRepository.deleteTableRecordQuery().replace("@tablename@", tableName);
         try {
             DataBaseProcessor dp=new DataBaseProcessor(DataBaseConnector.getConnection());
             dp.exec(query);
         } catch (ConnectException | SQLException e) {
-            e.printStackTrace();
+            throw new Exception("Ошибка БД при удалении записи из таблицы tables. Сообщение об ошибке:"+e.toString());
         }
     }
 }
@@ -202,12 +213,11 @@ class TableClass {
         @Override
         public boolean prepareStatement(PreparedStatement statement) throws SQLException {
             boolean res = true;
-
             String valuesStr = null;
             try {
                 valuesStr = getValuesStr();
             } catch (FieldTypeError fieldTypeError) {
-                fieldTypeError.printStackTrace();
+                //fieldTypeError.printStackTrace();
                 res = false;
             }
             statement.setString(1, valuesStr);
@@ -234,18 +244,14 @@ class TableClass {
                         return quoteString(value);
                     } else
                         return value;
-                } catch (FieldTypeError fieldTypeError) {
-                    fieldTypeError.printStackTrace();
-                    Logger.putLineToLogs(new String[]{"AppLog", "ErrorLog"}, fieldTypeError.getMessage(), true);
-                    throw new FieldTypeError(fieldTypeError.getMessage());
-                } catch (DateFormatError dateFormatError) {
-                    dateFormatError.printStackTrace();
+                } catch (Exception e) {
+                    throw new FieldTypeError("Ошибка формирования строки значений для запроса вставки данных. Сообщение об ошибке:"+e.toString());
                 }
             }
             return FieldTypeDefines.getDefaultValueForType(f);
         }
 
-        private String normDateStr(String value) throws DateFormatError {
+        private String normDateStr(String value) throws Exception {
             String[] d = value.split("/");
             if (d.length == 3) {
                 if (d[0].length() == 1) d[0] = "0" + d[0];
@@ -253,21 +259,19 @@ class TableClass {
                 if (d[2].length() == 2) d[2] = "20" + d[2];
                 return d[1] + "." + d[0] + "." + d[2];
             } else
-                throw new DateFormatError("Неверный формат строки даты!");
+                throw new Exception("Неверный формат строки даты! Строка даты:"+value);
         }
 
         private String quoteString(String s) {
             return s.replace("'", "''");
         }
 
-        private String getSQLDate(String value) {
+        private String getSQLDate(String value) throws Exception {
             try {
                 return DateFormatter.convertDateFormat(value, "dd-MM-yyyy", null, null);
             } catch (ParseException e) {
-                e.printStackTrace();
-                Logger.putLineToLogs(new String[]{"AppLog", "ErrorLog"}, e.getMessage(), true);
+                throw new Exception("Ошибка форматирования строки даты. Сообщение об ошибке:"+e.toString());
             }
-            return null;
         }
 
         private String getSQLNumeric(String value) {

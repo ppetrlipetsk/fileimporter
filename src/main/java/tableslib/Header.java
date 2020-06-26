@@ -5,13 +5,17 @@ import com.ppsdevelopment.loglib.Logger;
 import com.ppsdevelopment.tmcprocessor.tmctypeslib.*;
 import excelengine.ExcelReader;
 import excelengine.IParserCallBack;
-import throwlib.FieldTypeCorrectionError;
 import throwlib.FieldTypeError;
 import java.net.ConnectException;
 import java.sql.SQLException;
 import java.util.*;
 
 public class Header {
+    private String exceptionMessage;
+
+    public String getExceptionMessage() {
+        return exceptionMessage;
+    }
 
     /*
      * При загрузке таблицы есть следующие ситуации:
@@ -21,20 +25,23 @@ public class Header {
      *  4. При загрузке таблицы изменений, основной таблицы не существует.
      */
     public FieldsCollection loadFields(String tableName, String fileName, boolean importTable, boolean tableOverwrite,  boolean storeAliases, int fieldsCount) throws Exception {
+        this.exceptionMessage=null;
         String dbTableName= importTable ? tableName+"_import" : tableName;
         FieldsCollection fieldsSource=null;
         FieldsCollection fieldsDestination=new FieldsCollection(16, 0.75f,false); // Найденные поля
         if (importTable) { //Если это импорт таблицы изменений, в уже имеющуюся таблицу, с определенным набором полей, то загружаем сущействующий набор полей
             fieldsSource=loadFieldsFromDB(tableName);
-            if ((fieldsSource!=null)&&(fieldsSource.size()==0)) throw new ImportTableException("Таблица изменений должна загружаться после основной таблицы. Основная таблица не найдена."); //Если не нашли информацию о полях основной таблицы-исключение
+            if ((fieldsSource!=null)&&(fieldsSource.size()==0)) throw new Exception("Таблица изменений должна загружаться после основной таблицы. Основная таблица не найдена."); //Если не нашли информацию о полях основной таблицы-исключение
         }
         Header.FieldsCallback fcb = new Header.FieldsCallback(fieldsCount,fieldsDestination);
         ExcelReader ereader = new ExcelReader(fileName, fcb, fieldsCount);
         ereader.read();
         ereader.close();
         correctFieldTypes(fieldsDestination);
-        if (importTable)
-            validateFieldsAndAliases(fieldsSource,fieldsDestination);
+        if (importTable) {
+            validateFieldsAndAliases(fieldsSource, fieldsDestination);
+            if (!TableClass.isTableExists(tableName)) throw new Exception("Невозможно импортировать вспомогательную таблицу, т.к. основная таблица не найдена.");
+        }
         createTable(fieldsDestination,tableName,dbTableName,tableOverwrite,storeAliases,importTable);
         return fieldsDestination;
     }
@@ -53,10 +60,10 @@ public class Header {
     // то тип INTTYPE может быть успешно импртирован в поле с типом STRINGTYPE.
     // А Поле с типом STRINGTYPE не сможет быть импортировано в поле с типом INTTYPE.Если типы не равны, или такого поля в одной из таблиц нет, то false.
     // Поэтому, надо сравнить типы, и если они приемлемы, то продолжить импорт. Иначе исключение.
-    private void validateFieldsAndAliases(FieldsCollection fieldsSource, FieldsCollection destination) throws ImportTableException {
+    private void validateFieldsAndAliases(FieldsCollection fieldsSource, FieldsCollection destination) throws Exception {
         if ((fieldsSource==null)||(destination==null)){
             Formatter f=new Formatter();
-            throw new ImportTableException(f.format("Коллекция псевдонимов полей не существует.").toString());
+            throw new Exception(f.format("Коллекция псевдонимов полей не существует.").toString());
         }
         Iterator<Map.Entry<String, FieldRecord>> itr1 = destination.getIterator();
         while ((itr1.hasNext())) {
@@ -70,7 +77,7 @@ public class Header {
                     f.format("Поле %s не сществует в таблице импорта.",key);
                 else
                     f.format("Несовпадение типов полей. Поле/тип основной табл./тип измененной таблицы:%s/%s/%s",key,fieldsSource.get(key).getFieldType().toString(),entry.getValue().getFieldType().toString());
-                throw new ImportTableException(f.toString());
+                throw new Exception(f.toString());
             }
         }
     }
@@ -119,13 +126,11 @@ public class Header {
         }
     }
 
-    private void createDBTable(FieldsCollection fields, String dbTableName, boolean tableReCreate, boolean importTable, boolean tableExists) throws SQLException, ConnectException {
-        if (!tableExists||tableReCreate) {
+    private void createDBTable(FieldsCollection fields, String dbTableName, boolean tableOverwrite, boolean importTable, boolean tableExists) throws Exception {
+        if (!tableExists||tableOverwrite) {
             TableClass.createTable(fields.getFields(), dbTableName);
             if (!importTable) TableClass.insertDeletedField(dbTableName);
         }
-//         else
-//            TableClass.deleteFromTable(dbTableName);
     }
 
     private void cleanTable(String dbTableName, boolean tableReCreate, boolean tableExists) throws Exception {
@@ -133,14 +138,14 @@ public class Header {
             if (tableReCreate)  //Если таблица существует и ее можно пересоздавать
                 {
                     TableClass.deleteAliases(dbTableName);
-                    TableClass.deleteTableAlias(dbTableName);
+                    TableClass.deleteTableRecord(dbTableName);
                     TableClass.dropTable(dbTableName);
                 }
             else
                 throw new Exception("Таблица "+dbTableName+" уже существует. Недостаточно прав на ее уничтожение и создание новой.");
     }
 
-    private void detectFieldsTypes(LinkedList<String> list,FieldsCollection fields) throws FieldTypeCorrectionError {
+    private void detectFieldsTypes(LinkedList<String> list,FieldsCollection fields) throws Exception {
         correctLineRecordsType(list,fields);
     }
 
@@ -185,18 +190,17 @@ public class Header {
         return s.toString();
     }
 
-
-
-    private  void correctLineRecordsType(LinkedList<String> line, FieldsCollection fields) throws FieldTypeCorrectionError {
+    private  void correctLineRecordsType(LinkedList<String> line, FieldsCollection fields) throws Exception {
         Iterator<Map.Entry<String, FieldRecord>> itr1 = fields.getIterator();
+        String value=null;
+        String fieldName=null;
         try {
             int i=0;
             int fieldsCount=line.size();
-
             while ((itr1.hasNext()) && (i < (fieldsCount))) {
-                String value = line.get(i);
+                value = line.get(i);
                 Map.Entry<String, FieldRecord> entry = itr1.next();
-
+                fieldName=entry.getValue().getAlias();
                 boolean b= FieldsDefaults.isFieldExists(entry.getValue().getAlias());//.fields.containsKey(entry.getValue().getAlias());
                 if (!b){
                     FieldType currentFieldType = entry.getValue().getFieldType();
@@ -209,12 +213,11 @@ public class Header {
                 }
                 else
                     setCorrectionFieldType(fields.getFields(), entry.getValue().getAlias(), FieldsDefaults.getFieldType(entry.getValue().getAlias()));
-
                 i++;
             }
         }
         catch (Exception e){
-            throw new FieldTypeCorrectionError("Ошибка изменения типа записи!");
+            throw new Exception("Ошибка изменения типа записи! Значение:"+value+" Имя поля:"+fieldName);
         }
     }
 
@@ -226,11 +229,11 @@ public class Header {
 
     private void lineProcessor(LinkedList<String> list, long currentRow, int fieldsCount, FieldsCollection fields) {
         if (currentRow==0) createFieldsNameMap(list,fieldsCount,fields);
-        else{
+        else {
             try {
                 detectFieldsTypes(list,fields);
-            } catch (FieldTypeCorrectionError fieldTypeCorrectionError) {
-                fieldTypeCorrectionError.printStackTrace();
+            } catch (Exception e) {
+                this.exceptionMessage=e.toString();
             }
         }
     }

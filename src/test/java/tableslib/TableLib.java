@@ -7,10 +7,20 @@ import java.net.ConnectException;
 import java.sql.SQLException;
 
 public class TableLib {
-    public static void dropTableIfExists(String tableName){
+    public static void dropTableRecordAndAliases(String tableName){
         String query="delete from aliases where table_id in (select id from tables where tablename='"+tableName+"')\n" +
                 "delete from tables where tablename='"+tableName+"'" +
                 "drop table "+tableName;
+        try (DataBaseProcessor dp=new DataBaseProcessor(DataBaseConnector.getConnection())) {
+            dp.exec(query);
+        } catch (SQLException | ConnectException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void dropTable(String tableName){
+        String query="drop table "+tableName;
         try (DataBaseProcessor dp=new DataBaseProcessor(DataBaseConnector.getConnection())) {
             dp.exec(query);
         } catch (SQLException | ConnectException e) {

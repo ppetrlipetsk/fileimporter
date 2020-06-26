@@ -53,7 +53,7 @@ class HeaderTest {
         try {
             HeaderTestHelper h=new HeaderTestHelper();
             HeaderCaller headerCaller=new HeaderCaller(TABLENAME,h.getFIELDS());
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
             headerCaller.loadFieldsStandartCall();
 
             actual= h.checkTableCreate(TABLENAME)
@@ -61,7 +61,7 @@ class HeaderTest {
                     && h.checkAliasesCount(TABLENAME)
                     && h.checkTableFieldsCount(TABLENAME)
                     && h.checkAliases(TABLENAME);
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
         } catch (Exception e) {
             System.out.println(e.toString());
             actual=false;
@@ -81,7 +81,7 @@ class HeaderTest {
         try {
             HeaderTestHelper h=new HeaderTestHelper();
             HeaderCaller headerCaller=new HeaderCaller(TABLENAME,h.getFIELDS());
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
             headerCaller.loadFieldsIllegalFileName();
 
             result = h.checkTableCreate(TABLENAME)
@@ -89,7 +89,7 @@ class HeaderTest {
                         && h.checkAliasesCount(TABLENAME)
                         && h.checkTableFieldsCount(TABLENAME)
                         && h.checkAliases(TABLENAME);
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
         } catch (Exception e) {
             System.out.println(e.toString());
             result=false;
@@ -111,7 +111,7 @@ class HeaderTest {
             h.getFIELDSSET().put("field",FieldType.STRINGTYPE);
             h.getFIELDSSET().put("field0",FieldType.STRINGTYPE);
             HeaderCaller headerCaller=new HeaderCaller(TABLENAME,h.getFIELDS());
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
             headerCaller.loadFieldsOverFieldsCount();
 
             actual= h.checkTableCreate(TABLENAME)
@@ -119,7 +119,7 @@ class HeaderTest {
                     && h.checkAliasesCount(TABLENAME)
                     && h.checkTableFieldsCount(TABLENAME)
                     && h.checkAliases(TABLENAME);
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
         } catch (Exception e) {
             System.out.println(e.toString());
             actual=false;
@@ -140,7 +140,7 @@ class HeaderTest {
             h.getFIELDSSET().put("field",FieldType.STRINGTYPE);
             h.getFIELDSSET().put("field0",FieldType.STRINGTYPE);
             HeaderCaller headerCaller=new HeaderCaller(TABLENAME,h.getFIELDS());
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
             headerCaller.loadFieldsLessFieldCount();
 
             actual= h.checkTableCreate(TABLENAME)
@@ -148,7 +148,7 @@ class HeaderTest {
                     && !h.checkAliasesCount(TABLENAME)
                     && !h.checkTableFieldsCount(TABLENAME)
                     && h.checkAliases(TABLENAME);
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
         } catch (Exception e) {
             System.out.println(e.toString());
             actual=false;
@@ -166,7 +166,7 @@ class HeaderTest {
         boolean actual;
         try {
             HeaderTestHelper h=new HeaderTestHelper();
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
             HeaderCaller headerCaller=new HeaderCaller(TABLENAME,h.getFIELDS());
             headerCaller.loadFieldsNoStoreAliases();
 
@@ -175,7 +175,7 @@ class HeaderTest {
                     && h.getDBAliasesCount(TABLENAME)==0
                     && h.checkTableFieldsCount(TABLENAME)
                     && !h.checkAliases(TABLENAME);
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
 
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -196,7 +196,7 @@ class HeaderTest {
         //initFieldsSet();
         try {
             HeaderTestHelper h=new HeaderTestHelper();
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
             HeaderCaller headerCaller=new HeaderCaller(TABLENAME,h.getFIELDS());
             headerCaller.createDBTable(TABLENAME);
             headerCaller.loadFieldsNoTableOverwrite(h.getFIELDS().length);
@@ -206,7 +206,7 @@ class HeaderTest {
                     && h.getDBAliasesCount(TABLENAME)==0
                     && !h.checkTableFieldsCount(TABLENAME)
                     && !h.checkAliases(TABLENAME);
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
 
         } catch (Exception e) {
             System.out.println(e.toString()); // тут надо проверить, какое сообщение приходит, та ли это ошибка...
@@ -226,7 +226,7 @@ class HeaderTest {
         //initFieldsSet();
         try {
             HeaderTestHelper h=new HeaderTestHelper();
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
             HeaderCaller headerCaller=new HeaderCaller(TABLENAME,h.getFIELDS());
             headerCaller.createDBTable(TABLENAME);
             headerCaller.loadFieldsTableOverwrite();
@@ -236,7 +236,7 @@ class HeaderTest {
                     && h.checkAliasesCount(TABLENAME)
                     && h.checkTableFieldsCount(TABLENAME)
                     && h.checkAliases(TABLENAME);
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
         } catch (Exception e) {
             System.out.println(e.toString());
             actual=false;
@@ -253,7 +253,7 @@ class HeaderTest {
         boolean actual;
         try {
             HeaderTestHelper h=new HeaderTestHelper();
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
             HeaderCaller headerCaller=new HeaderCaller(TABLENAME,h.getFIELDS());
             headerCaller.loadFieldsStandartCall();
             final String tableName=TABLENAME+"_import";
@@ -264,8 +264,8 @@ class HeaderTest {
                     && !h.checkAliasesCount(tableName)
                     && h.checkTableFieldsCount(tableName)
                     && !h.checkAliases(tableName);
-            TableLib.dropTableIfExists(TABLENAME);
-            TableLib.dropTableIfExists(TABLENAME+"_import");
+            TableLib.dropTableRecordAndAliases(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME+"_import");
         } catch (Exception e) {
             System.out.println(e.toString());
             actual=false;
@@ -273,6 +273,37 @@ class HeaderTest {
         System.out.println("loadFieldsImportTable:"+(actual?"OK":"FAILED"));
         assertTrue(actual);
     }
+
+    // Проверим, поведение, если ImportTable=true,  существуют псевдонимы, запись о таблице в таблице tables, но основная таблица не существует в БД
+    // Должны получить исключение
+    @Test
+    void loadFieldsImportTableWhenMasterNotExists() {
+        System.out.println("Проверка: параметр, ImportTable=true, and main table not exists:");
+        boolean actual;
+        try {
+            HeaderTestHelper h=new HeaderTestHelper();
+            TableLib.dropTableRecordAndAliases(TABLENAME);
+            HeaderCaller headerCaller=new HeaderCaller(TABLENAME,h.getFIELDS());
+            headerCaller.loadFieldsStandartCall();
+            final String tableName=TABLENAME+"_import";
+            TableLib.dropTable(TABLENAME);
+
+            headerCaller.loadFieldsImportTable();
+            actual=h. checkTableCreate(tableName)
+                    && !h.checkTableRecordCreated(tableName)
+                    && !h.checkAliasesCount(tableName)
+                    && h.checkTableFieldsCount(tableName)
+                    && !h.checkAliases(tableName);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME+"_import");
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            actual=false;
+        }
+        System.out.println("loadFieldsImportTableWhenMasterNotExists:"+(actual?"OK":"FAILED"));
+        assertFalse(actual);
+    }
+
 
     // Проверим, поведение, если ImportTable=true и набор полей не совпадеют с основной таблицей
     // Должны получить исключение с сообщением о несоответствии типов полей
@@ -282,7 +313,7 @@ class HeaderTest {
         boolean actual;
         HeaderTestHelper h=new HeaderTestHelper();
         try {
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
             HeaderCaller headerCaller=new HeaderCaller(TABLENAME,h.getFIELDS());
             headerCaller.loadFieldsStandartCall();
             headerCaller.changeDBFieldType();
@@ -291,8 +322,8 @@ class HeaderTest {
         } catch (Exception e) {
             System.out.println(e.toString());
             actual=true;
-            TableLib.dropTableIfExists(TABLENAME);
-            TableLib.dropTableIfExists(TABLENAME+"_import");
+            TableLib.dropTableRecordAndAliases(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME+"_import");
         }
         System.out.println("loadFieldsImportTableIllegalAliases:"+(actual?"OK":"FAILED"));
         assertTrue(actual);
@@ -306,7 +337,7 @@ class HeaderTest {
         try {
             HeaderTestHelper h=new HeaderTestHelper();
             HeaderCaller headerCaller=new HeaderCaller(TABLENAME,h.getFIELDS());
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
             headerCaller.loadFieldsDefaults();
             h.getFIELDSSET().put("potrebnost_pen",FieldType.STRINGTYPE);
             actual= h.checkTableCreate(TABLENAME)
@@ -314,7 +345,7 @@ class HeaderTest {
                     && h.checkAliasesCount(TABLENAME)
                     && h.checkTableFieldsCount(TABLENAME)
                     && h.checkAliases(TABLENAME);
-            TableLib.dropTableIfExists(TABLENAME);
+            TableLib.dropTableRecordAndAliases(TABLENAME);
             h.getFIELDSSET().put("potrebnost_pen",FieldType.INTTYPE);
         } catch (Exception e) {
             System.out.println(e.toString());

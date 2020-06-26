@@ -36,7 +36,7 @@ class ImportProcessorTest {
 
     @Test
     void importRecordsToDataBase() {
-        TableLib.dropTableIfExists(TABLENAME);
+        TableLib.dropTableRecordAndAliases(TABLENAME);
         HeaderTestHelper h=new HeaderTestHelper();
         tableslib.header.HeaderCaller caller=new tableslib.header.HeaderCaller(TABLENAME,h.getFIELDS());
         FieldsCollection fields=null;
@@ -51,7 +51,7 @@ class ImportProcessorTest {
             ip.loadRecordsToDataBase(fields, FILENAME, TABLENAME);
             actual= ImportProcessotTestHelper.checkImportetData(TABLENAME,fields);
         }
-        TableLib.dropTableIfExists(TABLENAME);
+        TableLib.dropTableRecordAndAliases(TABLENAME);
         assertTrue(actual);
     }
 }

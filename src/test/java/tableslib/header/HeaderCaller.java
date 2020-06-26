@@ -11,7 +11,7 @@ import java.net.ConnectException;
 import java.sql.SQLException;
 
 public class HeaderCaller {
-    private  String[] fields;
+    private final String[] fields;
     private final String TABLENAME;
 
     public HeaderCaller(String TABLENAME, String[] fields) {

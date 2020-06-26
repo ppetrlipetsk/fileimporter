@@ -14,10 +14,10 @@ public class ProgramMesssages {
         appLog("Имя таблицы:"+ProgramParameters.getParameterValue("tablename"));
         appLog("Количество полей:"+ProgramParameters.getParameterValue("fieldscount"));
         appLog("Сохранять псевдонимы полей:"+ProgramParameters.getParameterValue("storealiases"));
-        appLog("Создавать таблицу::"+ProgramParameters.getParameterValue("createtable"));
         appLog("Имя файла журнала программы:"+ProgramParameters.getParameterValue("applog"));
         appLog("Имя файла журнала ошибок:"+ProgramParameters.getParameterValue("errorlog"));
-        appLog("Импорт обновления:"+ProgramParameters.getParameterValue("importtable"));
+        appLog("Импорт вспомогательной таблицы:"+ProgramParameters.getParameterValue("importtable"));
+        appLog("Автоподтверждение удаления таблицы:"+ProgramParameters.getParameterValue("tableoverwrite"));
     }
 
     public static void showAppParams() {
